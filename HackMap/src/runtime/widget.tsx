@@ -42,6 +42,6 @@ export default class Widget extends React.PureComponent<AllWidgetProps<{}>, any>
   }
 
   render() {
-    return <div id="edit-map" style={{ height: '100%' }}></div>;
+    return <div className="widget-hack-map" id="edit-map" style={{ height: '100%' }}></div>;
   }
 }
