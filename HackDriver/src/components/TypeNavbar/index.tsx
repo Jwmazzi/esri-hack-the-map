@@ -1,34 +1,31 @@
 import { React } from 'jimu-core';
-import { Navbar, Nav, NavItem, Button } from 'jimu-ui'
+import { Navbar, Nav, NavLink, NavItem, Button, Row, Col } from 'jimu-ui'
 
 export default class TypeNavbar extends React.Component {
 
+    constructor (props) {
+        super(props)
+    
+        this.state = {
+          activeLink: 0
+        }
+      }
+
     render() {
         return (
-            <Navbar
-            color="light"
-            expand={true}
-            light
-            full={true}
+            <Nav className="me-auto" navbar
             >
-                <Nav
-                className="me-auto"
-                navbar
-                >
-                <NavItem>
-                    <Button color="primary" onClick={() => this.props.onClick("In-Person Testing")}>
-                    In-Person Testing
-                    </Button>
-                </NavItem>
-                <NavItem>
-                    <Button color="primary" onClick={() => this.props.onClick("Testing Kits")}>
-                    Testing Kits
-                    </Button>
-                </NavItem>
-                </Nav>
-
-            </Navbar>
+                <Col>
+                    <NavLink active={this.state.activeLink === 0} onClick={() => {this.props.onClick("In-Person Testing"); this.setState({activeLink: 0})}}>
+                        In-Person Testing
+                    </NavLink>
+                </Col>
+                <Col>
+                    <NavLink active={this.state.activeLink === 1}onClick={() => {this.props.onClick("Testing Kits"); this.setState({activeLink: 1})}}>
+                        Testing Kits
+                    </NavLink>
+                </Col>
+            </Nav>
         )
-        
     }
 }
