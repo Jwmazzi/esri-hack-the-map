@@ -1,47 +1,47 @@
 /** @jsx jsx */
 import { React, AllWidgetProps, jsx } from 'jimu-core';
 
-import Map from "@arcgis/core/Map";
-import MapView from "@arcgis/core/views/MapView";
+import Map from 'esri/Map';
+import MapView from 'esri/views/MapView';
 
+export default class Widget extends React.PureComponent<AllWidgetProps<{}>, any> {
+  private view: MapView;
+  private map: Map;
 
-export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>, any> {
+  constructor(props) {
+    super(props);
 
-  constructor (props) {
-
-    super(props)
-
-    this.view = undefined;
-
-    // TODO - Get Hosted Feature Layer URLS from Craig and Define Them Here 
-   
+    // TODO - Get Hosted Feature Layer URLS from Craig and Define Them Here
     this.map = new Map({
-      basemap: "dark-gray-vector"
+      basemap: 'streets-navigation-vector',
     });
 
-    this.state = {}
-
+    this.state = {
+      isViewReady: false,
+    };
   }
 
-  componentDidMount() {
-
+  async componentDidMount() {
     this.view = new MapView({
-      container: "edit-map",
+      container: 'edit-map',
       map: this.map,
-      zoom: 12,
-      center: [-119, 36],
+      zoom: 10,
+      center: [-117.182541, 34.055569],
       popup: {
         dockEnabled: true,
         dockOptions: {
           buttonEnabled: false,
           position: 'bottom-right',
-          breakpoint: false
-        }
-      }
+          breakpoint: false,
+        },
+      },
     });
+
+    await this.view.when();
+    this.setState({ isViewReady: true });
   }
 
-  render () {
-    return <div id="edit-map" style={{height: '100%'}}></div>
+  render() {
+    return <div className="widget-hack-map" id="edit-map" style={{ height: '100%' }}></div>;
   }
 }
