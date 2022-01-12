@@ -16,13 +16,13 @@ export default class TypeNavbar extends React.Component {
                 navbar
                 >
                 <NavItem>
-                    <Button color="primary" onClick={() => this.props.onClick("Indoor")}>
-                        Indoor
+                    <Button color="primary" onClick={() => this.props.onClick("In-Person Testing")}>
+                    In-Person Testing
                     </Button>
                 </NavItem>
                 <NavItem>
-                    <Button color="primary" onClick={() => this.props.onClick("Outdoor")}>
-                        Outdoor
+                    <Button color="primary" onClick={() => this.props.onClick("Testing Kits")}>
+                    Testing Kits
                     </Button>
                 </NavItem>
                 </Nav>

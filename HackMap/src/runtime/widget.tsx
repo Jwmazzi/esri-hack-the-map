@@ -14,21 +14,21 @@ export default class Widget extends React.PureComponent<AllWidgetProps<{}>, any>
     super(props);
 
     this.providerFS = new FeatureLayer({
-      title: "Providers",
+      title: "SB County Providers",
       url: this.props.config.providerURL,
       popupTemplate: {
-        title: '{Name}',
+        title: '{Site Name}',
         content: [
           {
             type: "fields",
             fieldInfos: [
               {
-                fieldName: "TA_Count",
-                label: "Test A"
+                fieldName: "TestsInStockPCR",
+                label: "PCR Tests In Stock"
               },
               {
-                fieldName: "TB_Count",
-                label: "Test B"
+                fieldName: "TestsInStockRapid",
+                label: "Rapid Tests In Stock"
               }
             ]
           }
@@ -82,7 +82,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<{}>, any>
       if (this.props.activeType) {
         this.providerFS.definitionExpression = `SiteType = '${this.props.activeType}'`;
       }
-      
+
   }
 
   render() {
