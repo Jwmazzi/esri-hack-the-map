@@ -2,6 +2,7 @@ import { React } from 'jimu-core';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem  } from 'jimu-ui'
 
 export default class TestSelect extends React.Component {
+
     render() {
         return (
             <Dropdown >
@@ -18,5 +19,6 @@ export default class TestSelect extends React.Component {
                 </DropdownMenu>
             </Dropdown>
         )
+        
     }
 }

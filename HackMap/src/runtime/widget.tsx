@@ -3,6 +3,8 @@ import { React, AllWidgetProps, jsx } from 'jimu-core';
 
 import Map from 'esri/Map';
 import MapView from 'esri/views/MapView';
+import FeatureLayer from "esri/layers/FeatureLayer";
+import LayerList from "esri/widgets/LayerList";
 
 export default class Widget extends React.PureComponent<AllWidgetProps<{}>, any> {
   private view: MapView;
@@ -11,9 +13,35 @@ export default class Widget extends React.PureComponent<AllWidgetProps<{}>, any>
   constructor(props) {
     super(props);
 
+    this.providerFS = new FeatureLayer({
+      title: "Providers",
+      url: this.props.config.providerURL,
+      popupTemplate: {
+        title: '{Name}',
+        content: [
+          {
+            type: "fields",
+            fieldInfos: [
+              {
+                fieldName: "TA_Count",
+                label: "Test A"
+              },
+              {
+                fieldName: "TB_Count",
+                label: "Test B"
+              }
+            ]
+          }
+        ]
+      }
+    });
+
     // TODO - Get Hosted Feature Layer URLS from Craig and Define Them Here
     this.map = new Map({
       basemap: 'streets-navigation-vector',
+      layers: [
+        this.providerFS
+      ]
     });
 
     this.state = {
@@ -22,6 +50,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<{}>, any>
   }
 
   async componentDidMount() {
+
     this.view = new MapView({
       container: 'edit-map',
       map: this.map,
@@ -39,9 +68,34 @@ export default class Widget extends React.PureComponent<AllWidgetProps<{}>, any>
 
     await this.view.when();
     this.setState({ isViewReady: true });
+
+    const layerList = new LayerList({
+      view: this.view
+    });
+
+    this.view.ui.add(layerList, {position: "top-right"});
+
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+
+      if (this.props.activeType) {
+        this.providerFS.definitionExpression = `SiteType = '${this.props.activeType}'`;
+      }
+      
   }
 
   render() {
     return <div className="widget-hack-map" id="edit-map" style={{ height: '100%' }}></div>;
   }
+}
+
+Widget.mapExtraStateProps = (state) => {
+
+    if (state.widgetsState.hack) {
+      return {
+        activeType: state.widgetsState.hack.activeType
+      }
+  }
+
 }
