@@ -17,3 +17,17 @@ See [guide](https://developers.arcgis.com/experience-builder/guide/extend-base-w
 ### Formatting
 
 Using [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) to honor `.prettierrc.json` for file formatting.
+
+### UI library
+
+E.g.
+
+```ts
+import { Button } from 'jimu-ui';
+```
+
+See [jimu-UI](https://developers.arcgis.com/experience-builder/storybook)
+
+### Style widget
+
+See [CSS-in-JS](https://developers.arcgis.com/experience-builder/guide/widget-ui/#%EF%B8%8Fcss-in-js-recommended)
