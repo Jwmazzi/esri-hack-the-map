@@ -1,0 +1,119 @@
+{
+  "pages": {
+    "page_0": {
+      "id": "page_0",
+      "mode": "FIT_WINDOW",
+      "type": "NORMAL",
+      "layout": {
+        "LARGE": "layout_0"
+      },
+      "isDefault": true,
+      "isVisible": true,
+      "label": "Page 1"
+    }
+  },
+  "layouts": {
+    "layout_0": {
+      "type": "FIXED",
+      "content": {
+        "0": {
+          "type": "WIDGET",
+          "bbox": {
+            "left": "0.0%",
+            "right": "1.6%",
+            "top": "0.0%",
+            "bottom": "88.2%",
+            "width": "98.4%",
+            "height": "11.8%"
+          },
+          "widgetId": "widget_1",
+          "setting": {
+            "autoProps": {
+              "left": false,
+              "right": true,
+              "top": false,
+              "bottom": true
+            },
+            "vCenter": false,
+            "hCenter": false
+          },
+          "isPending": false
+        },
+        "1": {
+          "type": "WIDGET",
+          "bbox": {
+            "left": "0.0%",
+            "right": "1.6%",
+            "top": "8.9%",
+            "bottom": "0.0%",
+            "width": "98.4%",
+            "height": "91.1%"
+          },
+          "widgetId": "widget_2",
+          "setting": {
+            "autoProps": {
+              "left": false,
+              "right": true,
+              "top": true,
+              "bottom": false
+            },
+            "vCenter": false,
+            "hCenter": false
+          },
+          "isPending": false
+        }
+      },
+      "order": [
+        "0",
+        "1"
+      ]
+    }
+  },
+  "exbVersion": "1.6.0",
+  "mainSizeMode": "LARGE",
+  "theme": "themes/default/",
+  "forBuilderAttributes": {
+    "lockLayout": false
+  },
+  "template": "blankfullscreen",
+  "widgets": {
+    "widget_1": {
+      "uri": "widgets/HackDriver/",
+      "version": "1.6.0",
+      "label": "Hackathon Driver 1",
+      "config": {
+        "exampleConfigProperty": "test"
+      },
+      "id": "widget_1"
+    },
+    "widget_2": {
+      "uri": "widgets/HackMap/",
+      "version": "1.6.0",
+      "label": "Hackathon Map 1",
+      "config": {
+        "providerURL": "https://services.arcgis.com/jIL9msH9OI208GCb/arcgis/rest/services/SB_County_COVID_Testing/FeatureServer",
+        "_defaultstr": "{\"providerURL\":\"https://services.arcgis.com/jIL9msH9OI208GCb/arcgis/rest/services/SB_County_COVID_Testing/FeatureServer\"}"
+      },
+      "id": "widget_2"
+    }
+  },
+  "widgetsManifest": {},
+  "views": {},
+  "sections": {},
+  "dialogs": {},
+  "dataSources": {},
+  "messageConfigs": {},
+  "attributes": {
+    "portalUrl": "https://jeffscarmazzi.maps.arcgis.com",
+    "clientId": "",
+    "title": "Baseline",
+    "description": ""
+  },
+  "sharedThemeVariables": null,
+  "pageStructure": [
+    {
+      "page_0": []
+    }
+  ],
+  "timestamp": 1642038340970
+}

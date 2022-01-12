@@ -1,0 +1,24 @@
+{
+  "name": "HackMap",
+  "label": "Hackathon Map",
+  "type": "widget",
+  "version": "1.6.0",
+  "exbVersion": "1.6.0",
+  "author": "Esri R&D Center Beijing & Hackathon Team 2022",
+  "description": "A custom Web Map for the Hackathon Experience Builder application.",
+  "copyright": "",
+  "license": "http://www.apache.org/licenses/LICENSE-2.0",
+  "properties": {
+    "hasSettingPage": false
+  },
+  "translatedLocales": [
+    "en"
+  ],
+  "dependency": [
+    "jimu-arcgis"
+  ],
+  "defaultSize": {
+    "width": 800,
+    "height": 500
+  }
+}
