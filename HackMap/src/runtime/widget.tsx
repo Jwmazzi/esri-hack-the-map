@@ -12,7 +12,6 @@ import FeatureSet from 'esri/rest/support/FeatureSet';
 
 import { IMConfig } from '../config';
 import RouteParameters from 'esri/rest/support/RouteParameters';
-import { features } from 'process';
 
 interface MappedProps {
   activeType: string;
@@ -59,8 +58,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
           },
           {
             name: 'walkingIn',
-            expression: `var sum = $feature.TestsInStockPCR + $feature.TestsInStockRapid;
-                         if ($feature.WalkInsAccepted == "Yes") {
+            expression: `if ($feature.WalkInsAccepted == "Yes") {
                            return "green";
                          } 
                          return "red";
@@ -76,11 +74,11 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
                 <p>Last Updated {expression/editElapse} Hours Ago</p>
                 <table>
                   <tr>
-                    <td><span style="height: 15px; width: 15px; border-radius: 50%; display: inline-block; background-color: {expression/walkingIn}"></span></td>
+                    <td><span style="height: 15px; width: 15px; border-radius: 50%; display: inline-block; background-color: {expression/testingKits}"></span></td>
                     <td><p style="margin: auto; padding-left: 10px">Testing Kits</p></td>
                   </tr>
                   <tr>
-                    <td><span style="height: 15px; width: 15px; border-radius: 50%; display: inline-block; background-color: {expression/testingKits}"></span></td>
+                    <td><span style="height: 15px; width: 15px; border-radius: 50%; display: inline-block; background-color: {expression/walkingIn}"></span></td>
                     <td><p style="margin: auto; padding-left: 10px">Walk-ins Accepted</p></td>
                   </tr>
                 </table>
