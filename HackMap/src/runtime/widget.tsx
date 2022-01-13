@@ -7,10 +7,17 @@ import FeatureLayer from 'esri/layers/FeatureLayer';
 import LayerList from 'esri/widgets/LayerList';
 import { IMConfig } from '../config';
 
-export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>, any> {
+interface MappedProps {
+  activeType: string;
+}
+
+export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig> & MappedProps, any> {
   private view: MapView;
   private map: Map;
   private providerFL: FeatureLayer;
+
+  // see end of file
+  static mapExtraStateProps: (state: any) => MappedProps;
 
   constructor(props) {
     super(props);
