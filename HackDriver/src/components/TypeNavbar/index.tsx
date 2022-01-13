@@ -12,17 +12,28 @@ export default class TypeNavbar extends React.Component<Props> {
     return (
       <Nav className="me-auto" navbar>
         {this.props.allTypes.map((value) => {
-          console.log(value, value === this.props.currentType);
+          const isActive = value === this.props.currentType;
           return (
             <Col>
-              <NavLink
-                active={value === this.props.currentType}
-                onClick={() => {
-                  this.props.onClick(value);
-                }}
-              >
-                {value}
-              </NavLink>
+              <NavItem active={isActive}>
+                <div
+                  style={{
+                    boxShadow: isActive ? '0 1px 0px 0px #0079C1' : undefined,
+                    opacity: isActive ? 'initial' : 0.7,
+                    height: '40px',
+                    display: 'inline-block',
+                    lineHeight: '40px',
+                  }}
+                >
+                  <NavLink
+                    onClick={() => {
+                      this.props.onClick(value);
+                    }}
+                  >
+                    {value}
+                  </NavLink>
+                </div>
+              </NavItem>
             </Col>
           );
         })}
