@@ -9,11 +9,14 @@ import Locate from 'esri/widgets/Locate';
 import route from 'esri/rest/route';
 import Graphic from 'esri/Graphic';
 import FeatureSet from 'esri/rest/support/FeatureSet';
+import RouteResult from 'esri/rest/support/RouteResult';
 
 import { IMConfig } from '../config';
 import RouteParameters from 'esri/rest/support/RouteParameters';
 import { getPointGraphic } from '../../utils';
-import { Point } from 'esri/geometry';
+import { Point, Polyline } from 'esri/geometry';
+import SnappingControlsViewModel from 'esri/widgets/support/SnappingControls/SnappingControlsViewModel';
+
 
 interface MappedProps {
   activeType: string;
@@ -156,7 +159,8 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     // }
 
     const destPoint = feature.geometry as Point;
-    const orig = getPointGraphic(userLocation.coords, '#35AC46');
+    // const orig = getPointGraphic(userLocation.coords, '#35AC46');
+    const orig = getPointGraphic({longitude: -117.182541, latitude: 34.055569}, '#35AC46');
     const dest = getPointGraphic(destPoint, '#62C1FB');
 
     // from user location to selected feature
@@ -168,6 +172,8 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       outSpatialReference: {
         wkid: 3857,
       },
+      directionsOutputType: "standard",
+      returnDirections: true
     });
 
     try {
@@ -175,7 +181,12 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
         'https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World',
         routeParams
       );
-      console.log({ routingRes });
+      console.log(routingRes)
+
+      var routePolyGraphic = routingRes.routeResults[0].route;
+      this.view.graphics.add(routePolyGraphic);
+      this.view.goTo(routePolyGraphic.geometry.extent)
+
       this.setState({ routeCalculation: 'complete' });
     } catch (e) {
       console.error(e);
