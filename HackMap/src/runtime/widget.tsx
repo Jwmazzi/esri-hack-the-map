@@ -102,7 +102,10 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     });
 
     this.map = new Map({
-      basemap: 'streets-navigation-vector',
+      // basemap: 'streets-navigation-vector',
+      // basemap: new Basemap({ portalItem: { id: '273bf8d5c8ac400183fc24e109d20bcf' } }), // from https://story.maps.arcgis.com/
+      basemap: 'arcgis-community', // from doc
+      // basemap: new Basemap({ portalItem: { id: '184f5b81589844699ca1e132d007920e' } }), // from doc
       layers: [this.providerFL],
     });
   }
