@@ -19,7 +19,12 @@ interface MappedProps {
   activeType: string;
 }
 
-export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig> & MappedProps, any> {
+interface State {
+  routeCalculation: 'idle' | 'calculating' | 'complete' | 'failed';
+  isViewReady: boolean;
+}
+
+export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig> & MappedProps, State> {
   private view: MapView;
   private map: Map;
   private providerFL: FeatureLayer;
@@ -30,6 +35,11 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      routeCalculation: 'idle',
+      isViewReady: false,
+    };
 
     const routeAction = {
       title: 'Directions',
@@ -92,10 +102,6 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       basemap: 'streets-navigation-vector',
       layers: [this.providerFL],
     });
-
-    this.state = {
-      isViewReady: false,
-    };
   }
 
   async componentDidMount() {
@@ -127,10 +133,13 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
   }
 
   async handleRouting() {
+    this.setState({ routeCalculation: 'calculating' });
+
     const feature = this.view.popup.selectedFeature;
     const userLocation = await this.locator.locate();
 
     if (!userLocation || !feature) {
+      this.setState({ routeCalculation: 'failed' });
       // TODO: inform the user it's failing
       return;
     }
@@ -161,11 +170,17 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       },
     });
 
-    const routingRes = await route.solve(
-      'https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World',
-      routeParams
-    );
-    console.log({ routingRes });
+    try {
+      const routingRes = await route.solve(
+        'https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World',
+        routeParams
+      );
+      console.log({ routingRes });
+      this.setState({ routeCalculation: 'complete' });
+    } catch (e) {
+      console.error(e);
+      this.setState({ routeCalculation: 'failed' });
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
