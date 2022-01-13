@@ -12,6 +12,8 @@ import FeatureSet from 'esri/rest/support/FeatureSet';
 
 import { IMConfig } from '../config';
 import RouteParameters from 'esri/rest/support/RouteParameters';
+import { getPointGraphic } from '../../utils';
+import { Point } from 'esri/geometry';
 
 interface MappedProps {
   activeType: string;
@@ -117,7 +119,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       view: this.view,
     });
 
-    this.locator = new Locate({ view: this.view });
+    this.locator = new Locate({ view: this.view, goToLocationEnabled: false });
 
     this.view.ui.add(this.locator, 'top-left');
 
@@ -126,65 +128,44 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
 
   async handleRouting() {
     const feature = this.view.popup.selectedFeature;
-    // console.log(feature)
-    // console.log(feature.geometry)
-    // console.log(feature.properties)
+    const userLocation = await this.locator.locate();
 
-    // let point = {
-    //   type: "point",
-    //   x: feature.geometry.longitude,
-    //   y: feature.geometry.latitude
-    // };
+    if (!userLocation || !feature) {
+      // TODO: inform the user it's failing
+      return;
+    }
 
-    // let markerSymbol = {
-    //   type: "simple-marker",
-    //   color: [226, 119, 40]
-    // };
+    // userLocation is a `GeolocationCoordinates`:
+    // coords: {
+    //   accuracy: 20.398;
+    //   altitude: null;
+    //   altitudeAccuracy: null;
+    //   heading: null;
+    //   latitude: 34.1005943;
+    //   longitude: -118.3173789;
+    //   speed: null;
+    // }
 
-    // const start = new Graphic({
-    //   geometry: point,
-    //   symbol: markerSymbol
-    // });
+    const destPoint = feature.geometry as Point;
+    const orig = getPointGraphic(userLocation.coords, '#35AC46');
+    const dest = getPointGraphic(destPoint, '#62C1FB');
 
-    this.locator.goToLocationEnabled = false;
-
-    const resp = await this.locator.locate();
-    console.log(resp);
-
-    let userPoint = {
-      type: 'point',
-      x: resp.longitude,
-      y: resp.latitude,
-      spatialReference: {
-        wkid: 4326,
-      },
-    };
-
-    let userMarkerSymbol = {
-      type: 'simple-marker',
-      color: [226, 119, 40],
-    };
-
-    const stop = new Graphic({
-      geometry: userPoint,
-      symbol: userMarkerSymbol,
-    });
-
-    const nodes = new FeatureSet({ features: [stop] });
+    // from user location to selected feature
+    const stops = new FeatureSet({ features: [orig, dest] });
 
     const routeParams = new RouteParameters({
       apiKey: '',
-      stops: nodes,
+      stops,
       outSpatialReference: {
         wkid: 3857,
       },
     });
 
-    var x = await route.solve(
+    const routingRes = await route.solve(
       'https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World',
       routeParams
     );
-    console.log(x);
+    console.log({ routingRes });
   }
 
   componentDidUpdate(prevProps, prevState) {
