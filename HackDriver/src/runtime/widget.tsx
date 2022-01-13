@@ -2,38 +2,36 @@
 import { React, AllWidgetProps, jsx, appActions } from 'jimu-core';
 import { IMConfig } from '../config';
 
-import { Container} from 'jimu-ui';
+import { Container } from 'jimu-ui';
 
 import TestSelect from '../components/TestSelect';
 import TypeNavbar from '../components/TypeNavbar';
-import { timeStamp } from 'console';
+
+const ALL_TYPES = ['In-Person Testing', 'Testing Kits'];
 
 export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>, any> {
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
 
     this.state = {
-      activeType: null
-    }
+      activeType: ALL_TYPES[0],
+    };
   }
 
   onClick = (activeType) => {
-
     this.setState({
       activeType,
     });
 
-    this.props.dispatch(
-      appActions.widgetStatePropChange('hack', 'activeType', activeType)
-    );
-  }
+    this.props.dispatch(appActions.widgetStatePropChange('hack', 'activeType', activeType));
+  };
 
   render() {
     return (
       <Container>
-              <TypeNavbar onClick={this.onClick}/>
+        <TypeNavbar onClick={this.onClick} currentType={this.state.activeType} allTypes={ALL_TYPES} />
       </Container>
       // <TestSelect onClick={this.onClick} />
-    )
+    );
   }
 }
