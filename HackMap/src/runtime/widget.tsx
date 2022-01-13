@@ -15,8 +15,6 @@ import { IMConfig } from '../config';
 import RouteParameters from 'esri/rest/support/RouteParameters';
 import { getPointGraphic } from '../../utils';
 import { Point, Polyline } from 'esri/geometry';
-import SnappingControlsViewModel from 'esri/widgets/support/SnappingControls/SnappingControlsViewModel';
-
 
 interface MappedProps {
   activeType: string;
@@ -26,6 +24,8 @@ interface State {
   routeCalculation: 'idle' | 'calculating' | 'complete' | 'failed';
   isViewReady: boolean;
 }
+
+const USE_MOCKED_USER_LOCATION = true;
 
 export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig> & MappedProps, State> {
   private view: MapView;
@@ -139,7 +139,9 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     this.setState({ routeCalculation: 'calculating' });
 
     const feature = this.view.popup.selectedFeature;
-    const userLocation = await this.locator.locate();
+    const userLocation = USE_MOCKED_USER_LOCATION
+      ? { coords: { longitude: -117.182541, latitude: 34.055569 } }
+      : await this.locator.locate();
 
     if (!userLocation || !feature) {
       this.setState({ routeCalculation: 'failed' });
@@ -159,8 +161,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     // }
 
     const destPoint = feature.geometry as Point;
-    // const orig = getPointGraphic(userLocation.coords, '#35AC46');
-    const orig = getPointGraphic({longitude: -117.182541, latitude: 34.055569}, '#35AC46');
+    const orig = getPointGraphic(userLocation.coords, '#35AC46');
     const dest = getPointGraphic(destPoint, '#62C1FB');
 
     // from user location to selected feature
@@ -172,20 +173,22 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       outSpatialReference: {
         wkid: 3857,
       },
-      directionsOutputType: "standard",
-      returnDirections: true
+      directionsOutputType: 'standard',
+      returnDirections: true,
     });
 
     try {
-      const routingRes = await route.solve(
+      const routingResponse = await route.solve(
         'https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World',
         routeParams
       );
-      console.log(routingRes)
 
-      var routePolyGraphic = routingRes.routeResults[0].route;
+      // @ts-expect-error - mismatching types
+      const routeResult: RouteResult = routingResponse.routeResults[0];
+
+      var routePolyGraphic = routeResult.route;
       this.view.graphics.add(routePolyGraphic);
-      this.view.goTo(routePolyGraphic.geometry.extent)
+      this.view.goTo(routePolyGraphic.geometry.extent);
 
       this.setState({ routeCalculation: 'complete' });
     } catch (e) {
