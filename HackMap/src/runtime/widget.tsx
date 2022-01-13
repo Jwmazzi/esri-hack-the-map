@@ -14,7 +14,6 @@ import { IMConfig } from '../config';
 import RouteParameters from 'esri/rest/support/RouteParameters';
 import { features } from 'process';
 
-
 interface MappedProps {
   activeType: string;
 }
@@ -32,49 +31,45 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     super(props);
 
     const routeAction = {
-      title: "Directions",
-      id: "routeIt",
+      title: 'Directions',
+      id: 'routeIt',
     };
 
     const respondAction = {
-      title: "Respond",
-      id: "respondIt"
-    }
-    
+      title: 'Respond',
+      id: 'respondIt',
+    };
 
     this.providerFL = new FeatureLayer({
-      title: "SB County Providers",
+      title: 'SB County Providers',
       url: this.props.config.providerURL,
       popupTemplate: {
         title: '{SiteName}',
         lastEditInfoEnabled: false,
-        actions: [
-          routeAction,
-          respondAction
-        ]
+        actions: [routeAction, respondAction],
         expressionInfos: [
           {
-            name: "testingKits",
+            name: 'testingKits',
             expression: `var sum = $feature.TestsInStockPCR + $feature.TestsInStockRapid;
                          if (sum <= 50) {
                            return "red"
                          } 
                          return "green"
-                        `
+                        `,
           },
           {
-            name: "walkingIn",
+            name: 'walkingIn',
             expression: `var sum = $feature.TestsInStockPCR + $feature.TestsInStockRapid;
                          if ($feature.WalkInsAccepted == "Yes") {
                            return "green";
                          } 
                          return "red";
-                        `
+                        `,
           },
           {
-            name: "editElapse",
-            expression: `return Round(DateDiff(Now(), Date($feature.LastUpdateDate), "hours"));`
-          }
+            name: 'editElapse',
+            expression: `return Round(DateDiff(Now(), Date($feature.LastUpdateDate), "hours"));`,
+          },
         ],
         content: `
                 <p style="margin: auto">{SiteAddress}</p>
@@ -89,8 +84,8 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
                     <td><p style="margin: auto; padding-left: 10px">Walk-ins Accepted</p></td>
                   </tr>
                 </table>
-                 `
-      }
+                 `,
+      },
     });
 
     this.map = new Map({
@@ -104,12 +99,11 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
   }
 
   async componentDidMount() {
-
     this.view = new MapView({
       container: 'edit-map',
       map: this.map,
       zoom: 10,
-      center: [-117.182541, 34.055569]
+      center: [-117.182541, 34.055569],
     });
 
     await this.view.when();
@@ -125,7 +119,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       view: this.view,
     });
 
-    this.locator = new Locate({view: this.view});
+    this.locator = new Locate({ view: this.view });
 
     this.view.ui.add(this.locator, 'top-left');
 
@@ -133,7 +127,6 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
   }
 
   async handleRouting() {
-
     const feature = this.view.popup.selectedFeature;
     // console.log(feature)
     // console.log(feature.geometry)
@@ -158,41 +151,42 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     this.locator.goToLocationEnabled = false;
 
     const resp = await this.locator.locate();
-    console.log(resp)
-    
+    console.log(resp);
+
     let userPoint = {
-      type: "point",
+      type: 'point',
       x: resp.longitude,
       y: resp.latitude,
       spatialReference: {
-        wkid: 4326
-      }
+        wkid: 4326,
+      },
     };
 
     let userMarkerSymbol = {
-      type: "simple-marker",
-      color: [226, 119, 40]
+      type: 'simple-marker',
+      color: [226, 119, 40],
     };
 
     const stop = new Graphic({
       geometry: userPoint,
-      symbol: userMarkerSymbol
+      symbol: userMarkerSymbol,
     });
 
-    const nodes = new FeatureSet({features: [stop]});
+    const nodes = new FeatureSet({ features: [stop] });
 
     const routeParams = new RouteParameters({
-      apiKey: "",
+      apiKey: '',
       stops: nodes,
       outSpatialReference: {
-        wkid: 3857
-      }
-
+        wkid: 3857,
+      },
     });
 
-    var x = await route.solve("https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World", routeParams)
-    console.log(x)
-
+    var x = await route.solve(
+      'https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World',
+      routeParams
+    );
+    console.log(x);
   }
 
   componentDidUpdate(prevProps, prevState) {
