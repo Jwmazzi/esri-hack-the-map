@@ -1,4 +1,6 @@
 import Graphic from 'esri/Graphic';
+import SimpleMarkerSymbol from 'esri/symbols/SimpleMarkerSymbol';
+import Symbol from 'esri/symbols/Symbol';
 
 export const getPointGraphic = (
   { longitude, latitude }: { longitude: number; latitude: number },
@@ -13,16 +15,34 @@ export const getPointGraphic = (
     },
   };
 
-  const symbol = {
+  return new Graphic({ geometry, symbol: getCirclePointSymbol(color) });
+};
+
+export const getPinPointSymbol = () => {
+  // TODO:
+};
+
+export const getCirclePointSymbol = (color: string | number[]): SimpleMarkerSymbol => {
+  return {
     type: 'simple-marker',
-    size: '16px', // pixels
+    // @ts-expect-error auto cast
+    size: '18px', // pixels
     outline: {
-      // autocasts as new SimpleLineSymbol()
+      // @ts-expect-error auto cast
       color: '#fff',
-      width: '6px',
+      // @ts-expect-error auto cast
+      width: '3px',
     },
+    // @ts-expect-error auto cast
     color,
   };
+};
 
-  return new Graphic({ geometry, symbol });
+export const getPolylineSymbol = (): Symbol => {
+  return {
+    type: 'simple-line',
+    width: '7px',
+    // @ts-expect-error auto cast
+    color: '#0066FF',
+  };
 };

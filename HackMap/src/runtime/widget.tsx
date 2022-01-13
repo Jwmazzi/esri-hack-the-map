@@ -13,7 +13,7 @@ import RouteResult from 'esri/rest/support/RouteResult';
 
 import { IMConfig } from '../config';
 import RouteParameters from 'esri/rest/support/RouteParameters';
-import { getPointGraphic } from '../../utils';
+import { getPointGraphic, getPolylineSymbol } from '../../utils';
 import { Point, Polyline } from 'esri/geometry';
 
 interface MappedProps {
@@ -161,11 +161,11 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     // }
 
     const destPoint = feature.geometry as Point;
-    const orig = getPointGraphic(userLocation.coords, '#35AC46');
-    const dest = getPointGraphic(destPoint, '#62C1FB');
+    const origPointGraphic = getPointGraphic(userLocation.coords, '#62C1FB');
+    const destPointGraphic = getPointGraphic(destPoint, '#35AC46');
 
     // from user location to selected feature
-    const stops = new FeatureSet({ features: [orig, dest] });
+    const stops = new FeatureSet({ features: [origPointGraphic, destPointGraphic] });
 
     const routeParams = new RouteParameters({
       apiKey: '',
@@ -186,8 +186,12 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       // @ts-expect-error - mismatching types
       const routeResult: RouteResult = routingResponse.routeResults[0];
 
-      var routePolyGraphic = routeResult.route;
+      const routePolyGraphic = routeResult.route;
+      routePolyGraphic.symbol = getPolylineSymbol();
+
       this.view.graphics.add(routePolyGraphic);
+      this.view.graphics.addMany([routePolyGraphic, origPointGraphic, destPointGraphic]);
+
       this.view.goTo(routePolyGraphic.geometry.extent);
 
       this.setState({ routeCalculation: 'complete' });
