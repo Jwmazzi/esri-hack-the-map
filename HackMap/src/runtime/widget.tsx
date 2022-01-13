@@ -3,45 +3,52 @@ import { React, AllWidgetProps, jsx } from 'jimu-core';
 
 import Map from 'esri/Map';
 import MapView from 'esri/views/MapView';
-import FeatureLayer from "esri/layers/FeatureLayer";
-import LayerList from "esri/widgets/LayerList";
+import FeatureLayer from 'esri/layers/FeatureLayer';
+import LayerList from 'esri/widgets/LayerList';
+import { IMConfig } from '../config';
 
-export default class Widget extends React.PureComponent<AllWidgetProps<{}>, any> {
+interface MappedProps {
+  activeType: string;
+}
+
+export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig> & MappedProps, any> {
   private view: MapView;
   private map: Map;
+  private providerFL: FeatureLayer;
+
+  // see end of file
+  static mapExtraStateProps: (state: any) => MappedProps;
 
   constructor(props) {
     super(props);
 
-    this.providerFS = new FeatureLayer({
-      title: "SB County Providers",
+    this.providerFL = new FeatureLayer({
+      title: 'SB County Providers',
       url: this.props.config.providerURL,
       popupTemplate: {
         title: '{Site Name}',
         content: [
           {
-            type: "fields",
+            type: 'fields',
             fieldInfos: [
               {
-                fieldName: "TestsInStockPCR",
-                label: "PCR Tests In Stock"
+                fieldName: 'TestsInStockPCR',
+                label: 'PCR Tests In Stock',
               },
               {
-                fieldName: "TestsInStockRapid",
-                label: "Rapid Tests In Stock"
-              }
-            ]
-          }
-        ]
-      }
+                fieldName: 'TestsInStockRapid',
+                label: 'Rapid Tests In Stock',
+              },
+            ],
+          },
+        ],
+      },
     });
 
     // TODO - Get Hosted Feature Layer URLS from Craig and Define Them Here
     this.map = new Map({
       basemap: 'streets-navigation-vector',
-      layers: [
-        this.providerFS
-      ]
+      layers: [this.providerFL],
     });
 
     this.state = {
@@ -50,7 +57,6 @@ export default class Widget extends React.PureComponent<AllWidgetProps<{}>, any>
   }
 
   async componentDidMount() {
-
     this.view = new MapView({
       container: 'edit-map',
       map: this.map,
@@ -70,19 +76,16 @@ export default class Widget extends React.PureComponent<AllWidgetProps<{}>, any>
     this.setState({ isViewReady: true });
 
     const layerList = new LayerList({
-      view: this.view
+      view: this.view,
     });
 
-    this.view.ui.add(layerList, {position: "top-right"});
-
+    this.view.ui.add(layerList, { position: 'top-right' });
   }
 
   componentDidUpdate(prevProps, prevState) {
-
-      if (this.props.activeType) {
-        this.providerFS.definitionExpression = `SiteType = '${this.props.activeType}'`;
-      }
-
+    if (this.props.activeType) {
+      this.providerFL.definitionExpression = `SiteType = '${this.props.activeType}'`;
+    }
   }
 
   render() {
@@ -91,11 +94,9 @@ export default class Widget extends React.PureComponent<AllWidgetProps<{}>, any>
 }
 
 Widget.mapExtraStateProps = (state) => {
-
-    if (state.widgetsState.hack) {
-      return {
-        activeType: state.widgetsState.hack.activeType
-      }
+  if (state.widgetsState.hack) {
+    return {
+      activeType: state.widgetsState.hack.activeType,
+    };
   }
-
-}
+};

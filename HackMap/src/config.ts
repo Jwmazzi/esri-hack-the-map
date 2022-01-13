@@ -1,7 +1,7 @@
 import { ImmutableObject } from 'seamless-immutable'
 
 export interface Config {
-  exampleConfigProperty: string
+  providerURL: string
 }
 
 export type IMConfig = ImmutableObject<Config>

@@ -1,31 +1,43 @@
 import { React } from 'jimu-core';
-import { Navbar, Nav, NavLink, NavItem, Button, Row, Col } from 'jimu-ui'
+import { Navbar, Nav, NavLink, NavItem, Button, Row, Col } from 'jimu-ui';
 
-export default class TypeNavbar extends React.Component {
+interface Props {
+  allTypes: string[];
+  onClick: (value: string) => void;
+  currentType: string;
+}
 
-    constructor (props) {
-        super(props)
-    
-        this.state = {
-          activeLink: 0
-        }
-      }
-
-    render() {
-        return (
-            <Nav className="me-auto" navbar
-            >
-                <Col>
-                    <NavLink active={this.state.activeLink === 0} onClick={() => {this.props.onClick("In-Person Testing"); this.setState({activeLink: 0})}}>
-                        In-Person Testing
-                    </NavLink>
-                </Col>
-                <Col>
-                    <NavLink active={this.state.activeLink === 1}onClick={() => {this.props.onClick("Testing Kits"); this.setState({activeLink: 1})}}>
-                        Testing Kits
-                    </NavLink>
-                </Col>
-            </Nav>
-        )
-    }
+export default class TypeNavbar extends React.Component<Props> {
+  render() {
+    return (
+      <Nav className="me-auto" navbar>
+        {this.props.allTypes.map((value) => {
+          const isActive = value === this.props.currentType;
+          return (
+            <Col>
+              <NavItem active={isActive}>
+                <div
+                  style={{
+                    boxShadow: isActive ? '0 1px 0px 0px #0079C1' : undefined,
+                    opacity: isActive ? 'initial' : 0.7,
+                    height: '40px',
+                    display: 'inline-block',
+                    lineHeight: '40px',
+                  }}
+                >
+                  <NavLink
+                    onClick={() => {
+                      this.props.onClick(value);
+                    }}
+                  >
+                    {value}
+                  </NavLink>
+                </div>
+              </NavItem>
+            </Col>
+          );
+        })}
+      </Nav>
+    );
+  }
 }
