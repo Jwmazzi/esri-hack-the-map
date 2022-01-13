@@ -28,11 +28,9 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
 
   render() {
     return (
-      <div style={{ height: '40px' }}>
-        <Container>
-          <TypeNavbar onClick={this.onClick} currentType={this.state.activeType} allTypes={ALL_TYPES} />
-        </Container>
-      </div>
+      <Container style={{ boxShadow: '0px 1px 0px #cacaca' }}>
+        <TypeNavbar onClick={this.onClick} currentType={this.state.activeType} allTypes={ALL_TYPES} />
+      </Container>
       // <TestSelect onClick={this.onClick} />
     );
   }
