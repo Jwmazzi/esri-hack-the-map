@@ -233,11 +233,11 @@
           },
           "bbox": {
             "left": "20.5px",
-            "top": "49.7%",
-            "width": "87.2%",
-            "height": "25.5%",
+            "top": "51.8%",
+            "width": "88.9%",
+            "height": "19.6%",
             "right": "20.5px",
-            "bottom": "105px"
+            "bottom": "121px"
           },
           "widgetId": "widget_5",
           "isPending": false
@@ -391,7 +391,7 @@
             "value": "current_page",
             "openType": "_self"
           },
-          "text": "Get tested now",
+          "text": "Find Tests Now",
           "textExpression": null
         },
         "styleConfig": {
@@ -484,9 +484,10 @@
           "height": "396px"
         },
         "SMALL": {
-          "position": "CENTER",
+          "position": "BOTTOM",
           "width": "320px",
-          "height": "396px"
+          "height": "424px",
+          "aspectRatio": false
         }
       },
       "closeWhenClickOverlay": false,
@@ -525,5 +526,5 @@
       "page_0": []
     }
   ],
-  "timestamp": 1642152134576
+  "timestamp": 1642152680480
 }
