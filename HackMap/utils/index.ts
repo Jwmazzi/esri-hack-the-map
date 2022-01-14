@@ -1,5 +1,6 @@
 import Graphic from 'esri/Graphic';
 import CIMSymbol from 'esri/symbols/CIMSymbol';
+import PictureMarkerSymbol from 'esri/symbols/PictureMarkerSymbol';
 import SimpleMarkerSymbol from 'esri/symbols/SimpleMarkerSymbol';
 import Symbol from 'esri/symbols/Symbol';
 
@@ -48,6 +49,31 @@ export const getPolylineSymbol = (): Symbol => {
   };
 };
 
+export const getLabelSVGSymbol = (text: string, width = 64): PictureMarkerSymbol => {
+  const getSvgDataUrl = (svg) => `data:image/svg+xml;base64,${btoa(svg)}`;
+
+  const height = 32;
+
+  const svg = `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { text-anchor: middle; }
+    tspan { font: 12px Avenir Next; fill: #fff; }
+  </style>
+  <rect width="100%" height="100%" rx="8" fill="#0066FF"/>
+  <text x="50%" y="50%" transform="translate(0,4)"><tspan>${text}</tspan></text>
+</svg>`;
+
+  return {
+    type: 'picture-marker',
+    url: getSvgDataUrl(svg),
+    // @ts-expect-error can use string
+    width: `${width}px`,
+    // @ts-expect-error can use string
+    height: `${height}px`,
+  };
+};
+
+// CIMSymbol doesn't support rounded corner as easy as SVG
 export const getLabelCIMSymbol = (textString: string): CIMSymbol => {
   return {
     type: 'cim',

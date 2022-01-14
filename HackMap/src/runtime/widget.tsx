@@ -15,12 +15,11 @@ import TravelMode from 'esri/rest/support/TravelMode';
 import serviceArea from 'esri/rest/serviceArea';
 import { IMConfig } from '../config';
 import RouteParameters from 'esri/rest/support/RouteParameters';
-import { getLabelCIMSymbol, getPointGraphic, getPolylineSymbol } from '../../utils';
+import { getLabelCIMSymbol, getLabelSVGSymbol, getPointGraphic, getPolylineSymbol } from '../../utils';
 import { Point, Polyline } from 'esri/geometry';
 import { FullWidthButton } from '../components/FullWidthButton';
 import HackModal from '../components/HackModal';
 import RespondModal from '../components/RespondModal';
-import CIMSymbol from 'esri/symbols/CIMSymbol';
 
 interface MappedProps {
   activeType: string;
@@ -223,7 +222,8 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
             wkid: 3857,
           },
         },
-        symbol: getLabelCIMSymbol(`${Math.ceil(routePolyGraphic.attributes.Total_TravelTime)} min`),
+        // symbol: getLabelCIMCIMSymbol(`${Math.ceil(routePolyGraphic.attributes.Total_TravelTime)} min`),
+        symbol: getLabelSVGSymbol(`${Math.ceil(routePolyGraphic.attributes.Total_TravelTime)} min`),
       });
 
       this.view.graphics.addMany([routePolyGraphic, origPointGraphic, destPointGraphic, travelTimeLabel]);
