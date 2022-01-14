@@ -1,1 +1,0 @@
-define({_widgetLabel:"Teksti",defaultPlaceholder:"Muokkaa tekstiä kaksoisnapsauttamalla"});

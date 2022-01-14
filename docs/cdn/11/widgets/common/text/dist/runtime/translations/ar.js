@@ -1,1 +1,0 @@
-define({_widgetLabel:"النص",defaultPlaceholder:"انقر نقرًا مزدوجًا لتحرير النص"});

@@ -1,1 +1,0 @@
-define({_widgetLabel:"Botão"});

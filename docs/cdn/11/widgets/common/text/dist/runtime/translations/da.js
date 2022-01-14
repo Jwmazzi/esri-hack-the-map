@@ -1,1 +1,0 @@
-define({_widgetLabel:"Tekst",defaultPlaceholder:"Dobbeltklik for at redigere tekst"});

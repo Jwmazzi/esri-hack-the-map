@@ -15,11 +15,14 @@ import TravelMode from 'esri/rest/support/TravelMode';
 import serviceArea from 'esri/rest/serviceArea';
 import { IMConfig } from '../config';
 import RouteParameters from 'esri/rest/support/RouteParameters';
-import { getLabelCIMSymbol, getLabelSVGSymbol, getPointGraphic, getPolylineSymbol } from '../../utils';
+import { getLabelCIMSymbol, getLabelSVGSymbol, getPointGraphic, getPolylineSymbol, routeSVG, respondSVG, getSvgDataUrl } from '../../utils';
 import { Point, Polyline } from 'esri/geometry';
 import { FullWidthButton } from '../components/FullWidthButton';
 import HackModal from '../components/HackModal';
 import RespondModal from '../components/RespondModal';
+import utils from 'esri/smartMapping/raster/support/utils';
+import Home from 'esri/widgets/Home';
+import esriConfig from 'esri/config';
 
 interface MappedProps {
   activeType: string;
@@ -46,6 +49,8 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
   constructor(props) {
     super(props);
 
+    esriConfig.apiKey = this.props.config.apiKey;
+
     this.state = {
       routeCalculation: 'idle',
       isViewReady: false,
@@ -56,11 +61,13 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     const routeAction = {
       title: 'Directions',
       id: 'routeIt',
+      image: getSvgDataUrl(routeSVG)
     };
 
     const respondAction = {
       title: 'Respond',
       id: 'respondIt',
+      image: getSvgDataUrl(respondSVG)
     };
 
     this.providerFL = new FeatureLayer({
@@ -114,9 +121,9 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     this.routingTargetFL = new FeatureLayer({url: this.props.config.routingTargetsURL});
 
     this.map = new Map({
-      basemap: 'streets-navigation-vector',
+      // basemap: 'streets-navigation-vector',
       // basemap: new Basemap({ portalItem: { id: '273bf8d5c8ac400183fc24e109d20bcf' } }), // from https://story.maps.arcgis.com/
-      // basemap: 'arcgis-community', // from doc
+      basemap: 'arcgis-community', // from doc
       // basemap: new Basemap({ portalItem: { id: '184f5b81589844699ca1e132d007920e' } }), // from doc
       layers: [this.providerFL],
     });
@@ -151,9 +158,11 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       }
     });
 
-    this.locator = new Locate({ view: this.view, goToLocationEnabled: false });
-
+    this.locator = new Locate({ view: this.view });
     this.view.ui.add(this.locator, 'top-left');
+    
+    const home = new Home({ view: this.view });
+    this.view.ui.add(home, 'top-left');
 
   }
 
@@ -234,7 +243,9 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
 
       this.view.graphics.addMany([routePolyGraphic, origPointGraphic, destPointGraphic, travelTimeLabel]);
 
-      this.view.goTo(routePolyline.extent);
+      this.view.popup.close();
+
+      this.view.goTo(routePolyline.extent.expand(1.25));
 
       this.routingTargetFL.applyEdits({
         addFeatures: [new Graphic({attributes: {SiteID: feature.attributes.SiteID}})]

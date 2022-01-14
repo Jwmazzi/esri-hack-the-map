@@ -1,1 +1,0 @@
-define({_widgetLabel:"文本",defaultPlaceholder:"双击以编辑文本"});

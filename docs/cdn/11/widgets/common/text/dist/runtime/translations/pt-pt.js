@@ -1,1 +1,0 @@
-define({_widgetLabel:"Texto",defaultPlaceholder:"Clicar duas vezes para editar texto"});

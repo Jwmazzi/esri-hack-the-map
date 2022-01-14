@@ -1,1 +1,0 @@
-define({_widgetLabel:"Текст",defaultPlaceholder:"Дважды щелкните, чтобы изменить текст"});

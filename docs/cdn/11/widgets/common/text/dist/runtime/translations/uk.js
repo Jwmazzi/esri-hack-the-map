@@ -1,1 +1,0 @@
-define({_widgetLabel:"Текст",defaultPlaceholder:"Двічі клацніть, щоб редагувати текст"});

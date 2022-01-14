@@ -1,1 +1,0 @@
-define({_widgetLabel:"ตัวอักษร",defaultPlaceholder:"ดับเบิลคลิกเพื่อแก้ไขข้อความ"});
