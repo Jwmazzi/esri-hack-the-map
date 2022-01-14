@@ -205,11 +205,11 @@
           },
           "bbox": {
             "left": "50%",
-            "top": "30px",
-            "width": "28.5%",
-            "height": "20.9%",
-            "right": "35.6%",
-            "bottom": "71.4%"
+            "top": "23px",
+            "width": "36.5%",
+            "height": "26.5%",
+            "right": "32.0%",
+            "bottom": "68.4%"
           },
           "widgetId": "widget_3",
           "isPending": false
@@ -268,23 +268,23 @@
         "3": {
           "type": "WIDGET",
           "bbox": {
-            "left": "50%",
+            "left": "10.4%",
             "right": "10.4%",
-            "top": "35.8%",
-            "bottom": "54.2%",
+            "top": "38.9%",
+            "bottom": "52.8%",
             "width": "79.3%",
-            "height": "10.0%"
+            "height": "8.3%"
           },
           "widgetId": "widget_7",
           "setting": {
             "autoProps": {
-              "left": false,
-              "right": true,
+              "left": true,
+              "right": false,
               "top": false,
               "bottom": true
             },
             "vCenter": false,
-            "hCenter": true
+            "hCenter": false
           },
           "isPending": false
         }
@@ -373,6 +373,7 @@
       "label": "Text 2",
       "config": {
         "text": "<p style=\"text-align: center;\"><span style=\"font-size: 15px; color: var(--dark-800);\">﻿The best way to find Covid-19 tests around you. You will be prompted to </span><strong style=\"font-size: 15px; color: rgb(33, 65, 85);\">Allow Location Services</strong><span style=\"font-size: 15px; color: var(--dark-800);\"> when using this application.</span></p>",
+        "placeholder": "<p style=\"text-align: center;\"><span style=\"color: var(--dark-800);\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span></p>",
         "style": {
           "verticalAlign": "start",
           "wrap": true
@@ -462,6 +463,7 @@
       "label": "Text 3",
       "config": {
         "text": "<p style=\"text-align: center;\"><strong style=\"font-size: 22px; color: rgb(33, 65, 85);\">Welcome to TestRouter</strong></p>",
+        "placeholder": "Double click to edit text",
         "style": {
           "verticalAlign": "start",
           "wrap": true
@@ -486,7 +488,7 @@
         "SMALL": {
           "position": "BOTTOM",
           "width": "320px",
-          "height": "424px",
+          "height": "445px",
           "aspectRatio": false
         }
       },
@@ -515,10 +517,7 @@
   "dataSources": {},
   "messageConfigs": {},
   "attributes": {
-    "portalUrl": "https://jeffscarmazzi.maps.arcgis.com",
-    "clientId": "",
-    "title": "Baseline",
-    "description": ""
+    "portalUrl": "https://jeffscarmazzi.maps.arcgis.com"
   },
   "sharedThemeVariables": null,
   "pageStructure": [
@@ -526,5 +525,5 @@
       "page_0": []
     }
   ],
-  "timestamp": 1642152680480
+  "timestamp": 1642152913072
 }
