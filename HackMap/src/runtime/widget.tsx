@@ -66,6 +66,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     this.providerFL = new FeatureLayer({
       title: 'SB County Providers',
       url: this.props.config.providerURL,
+      outFields: ['*'],
       popupTemplate: {
         title: '{SiteName}',
         lastEditInfoEnabled: false,
@@ -110,6 +111,8 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       },
     });
 
+    this.routingTargetFL = new FeatureLayer({url: this.props.config.routingTargetsURL});
+
     this.map = new Map({
       // basemap: 'streets-navigation-vector',
       // basemap: new Basemap({ portalItem: { id: '273bf8d5c8ac400183fc24e109d20bcf' } }), // from https://story.maps.arcgis.com/
@@ -125,6 +128,14 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       map: this.map,
       zoom: 10,
       center: [-117.182541, 34.055569],
+      popup: {
+        dockEnabled: false,
+        dockOptions: {
+          buttonEnabled: false,
+          position: 'bottom-right',
+          breakpoint: false
+        }
+      }
     });
 
     await this.view.when();
@@ -135,28 +146,21 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
         this.handleRouting();
       }
       if (event.action.id === 'respondIt') {
-        this.submitFeedback();
+        this.openRespondModal();
       }
-    });
-
-    const layerList = new LayerList({
-      view: this.view,
     });
 
     this.locator = new Locate({ view: this.view, goToLocationEnabled: false });
 
     this.view.ui.add(this.locator, 'top-left');
 
-    // this.view.ui.add(layerList, { position: 'top-right' });
-  }
-
-  submitFeedback() {
-    this.openRespondModal();
   }
 
   async handleRouting() {
     this.setState({ routeCalculation: 'calculating' });
 
+    this.view.graphics.removeAll();
+    
     const feature = this.view.popup.selectedFeature;
     const userLocation = USE_MOCKED_USER_LOCATION
       ? { coords: { longitude: -117.182541, latitude: 34.055569 } }
@@ -213,6 +217,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       const targetGeom = routePolyline.paths[0][targetIndex];
 
       const travelTimeLabel = new Graphic({
+        attributes: {'route': 0},
         geometry: {
           // @ts-expect-error auto cast
           type: 'point',
@@ -229,6 +234,10 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       this.view.graphics.addMany([routePolyGraphic, origPointGraphic, destPointGraphic, travelTimeLabel]);
 
       this.view.goTo(routePolyline.extent);
+
+      this.routingTargetFL.applyEdits({
+        addFeatures: [new Graphic({attributes: {SiteID: feature.attributes.SiteID}})]
+      });
 
       this.setState({ routeCalculation: 'complete' });
     } catch (e) {
@@ -268,6 +277,8 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
           toggle={this.closeRespondModal}
           isOpen={this.state.showResponseModal}
           onSubmit={this.handleSubmitSmartRoute}
+          config={this.props.config}
+          siteFeature={this.view != undefined ? this.view.popup.selectedFeature : -1}
         />
       </div>
     );
