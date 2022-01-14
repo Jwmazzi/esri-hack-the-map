@@ -15,12 +15,11 @@ import TravelMode from 'esri/rest/support/TravelMode';
 import serviceArea from 'esri/rest/serviceArea';
 import { IMConfig } from '../config';
 import RouteParameters from 'esri/rest/support/RouteParameters';
-import { getPointGraphic, getPolylineSymbol } from '../../utils';
+import { getLabelCIMSymbol, getLabelSVGSymbol, getPointGraphic, getPolylineSymbol } from '../../utils';
 import { Point, Polyline } from 'esri/geometry';
 import { FullWidthButton } from '../components/FullWidthButton';
 import HackModal from '../components/HackModal';
 import RespondModal from '../components/RespondModal';
-import CIMSymbol from 'esri/symbols/CIMSymbol';
 
 interface MappedProps {
   activeType: string;
@@ -135,7 +134,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       if (event.action.id === 'routeIt') {
         this.handleRouting();
       }
-      if (event.action.id === "respondIt") {
+      if (event.action.id === 'respondIt') {
         this.submitFeedback();
       }
     });
@@ -152,9 +151,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
   }
 
   submitFeedback() {
-
     this.openRespondModal();
-    
   }
 
   async handleRouting() {
@@ -210,136 +207,28 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
 
       const routePolyGraphic = routeResult.route;
       routePolyGraphic.symbol = getPolylineSymbol();
+      const routePolyline = routePolyGraphic.geometry as Polyline;
 
-      const targetIndex  = Math.floor(routePolyGraphic.geometry.paths[0].length / 2);
-      const targetGeom   = routePolyGraphic.geometry.paths[0][targetIndex];
-      console.log(targetGeom);
+      const targetIndex = Math.floor(routePolyline.paths[0].length / 2);
+      const targetGeom = routePolyline.paths[0][targetIndex];
 
-      const symbol = {
-        type: "cim",
-        data: {
-          type: "CIMSymbolReference",
-          symbol: {
-            type: "CIMPointSymbol",
-            symbolLayers: [
-              {
-                type: "CIMVectorMarker",
-                enable: true,
-                size: 10.5,
-                colorLocked: true,
-                anchorPointUnits: "Relative",
-                frame: {
-                  xmin: 0,
-                  ymin: -5.25,
-                  xmax: 0,
-                  ymax: 5.25
-                },
-                markerGraphics: [
-                  {
-                    type: "CIMMarkerGraphic",
-                    geometry: {
-                      x: targetGeom[0],
-                      y: targetGeom[1]
-                    },
-                    symbol: {
-                      type: "CIMTextSymbol",
-                      fontFamilyName: "Avenir Next LT Pro Regular",
-                      fontStyleName: "normal",
-                      height: 10.5,
-                      horizontalAlignment: "Center",
-                      offsetX: 0,
-                      offsetY: 19.5,
-                      symbol: {
-                        type: "CIMPolygonSymbol",
-                        symbolLayers: [
-                          {
-                            type: "CIMSolidFill",
-                            enable: true,
-                            color: [255, 255, 255, 255]
-                          }
-                        ]
-                      },
-                      verticalAlignment: "Center",
-                      font: {
-                        family: "Avenir Next LT Pro Regular",
-                        decoration: "none",
-                        style: "normal",
-                        weight: "normal"
-                      }
-                    },
-                    textString: `${routePolyGraphic.attributes.Total_TravelTime} Minutes`
-                  }
-                ],
-                scaleSymbolsProportionally: true,
-                respectFrame: true
-              },
-              {
-                type: "CIMVectorMarker",
-                enable: true,
-                anchorPointUnits: "Relative",
-                size: 39,
-                frame: {
-                  xmin: 0,
-                  ymin: 0,
-                  xmax: 136.5,
-                  ymax: 39
-                },
-                markerGraphics: [
-                  {
-                    type: "CIMMarkerGraphic",
-                    geometry: {
-                      rings: [
-                        [
-                          [0, 39],
-                          [136.5, 39],
-                          [136.5, 0],
-                          [0, 0],
-                          [0, 39]
-                        ]
-                      ]
-                    },
-                    symbol: {
-                      type: "CIMPolygonSymbol",
-                      symbolLayers: [
-                        {
-                          type: "CIMSolidFill",
-                          enable: true,
-                          color: [2, 0, 28, 255]
-                        }
-                      ]
-                    }
-                  }
-                ],
-                scaleSymbolsProportionally: false,
-                respectFrame: true,
-                offsetX: 0,
-                offsetY: 19.5,
-                anchorPoint: {
-                  x: 0,
-                  y: 0
-                },
-                rotateClockwise: false
-              }
-            ]
-          }
-        }
-      };
-
-      const g = new Graphic({
+      const travelTimeLabel = new Graphic({
         geometry: {
+          // @ts-expect-error auto cast
           type: 'point',
           x: targetGeom[0],
           y: targetGeom[1],
           spatialReference: {
-            wkid: 3857
-          }
+            wkid: 3857,
+          },
         },
-        symbol: symbol
-      })
+        // symbol: getLabelCIMCIMSymbol(`${Math.ceil(routePolyGraphic.attributes.Total_TravelTime)} min`),
+        symbol: getLabelSVGSymbol(`${Math.ceil(routePolyGraphic.attributes.Total_TravelTime)} min`),
+      });
 
-      this.view.graphics.addMany([routePolyGraphic, origPointGraphic, destPointGraphic, g]);
+      this.view.graphics.addMany([routePolyGraphic, origPointGraphic, destPointGraphic, travelTimeLabel]);
 
-      this.view.goTo(routePolyGraphic.geometry.extent);
+      this.view.goTo(routePolyline.extent);
 
       this.setState({ routeCalculation: 'complete' });
     } catch (e) {
@@ -400,7 +289,6 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     this.setState({ showResponseModal: false });
   };
 
-
   private handleSubmitSmartRoute = async (info: {
     searchFor: string[];
     transportMethod: 'walking' | 'driving';
@@ -409,8 +297,8 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     console.log({ info });
     // TODO: use info
     const userLocation = USE_MOCKED_USER_LOCATION
-    ? { coords: { longitude: -117.182541, latitude: 34.055569 } }
-    : await this.locator.locate();
+      ? { coords: { longitude: -117.182541, latitude: 34.055569 } }
+      : await this.locator.locate();
 
     // userLocation is a `GeolocationCoordinates`:
     // coords: {
@@ -423,39 +311,25 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     //   speed: null;
     // }
 
-    const g = new Graphic({
-      geometry: {
-        type: 'point',
-        x: userLocation.coords.longitude,
-        y: userLocation.coords.latitude,
-        spatialReference: {
-          wkid: 4326
-        }
-      }
-    })
-
-    // const facility = new FeatureSet({
-    //   features: [g]
-    // })
+    const userLocationGraphic = getPointGraphic(userLocation.coords);
 
     const serviceAreaParameters = new ServiceAreaParameters({
       apiKey: '',
       facilities: new FeatureSet({
-        features: [g]
+        features: [userLocationGraphic],
       }),
       defaultBreaks: [2.5],
       travelMode: { type: 'automobile' },
-      travelDirection: "to-facility",
-      outSpatialReference: {wkid: 3857},
-      trimOuterPolygon: true
+      travelDirection: 'to-facility',
+      outSpatialReference: { wkid: 3857 },
+      trimOuterPolygon: true,
     });
 
     const resp = await serviceArea.solve(
-      'https://route-api.arcgis.com/arcgis/rest/services/World/ServiceAreas/NAServer/ServiceArea_World/solveServiceArea', 
+      'https://route-api.arcgis.com/arcgis/rest/services/World/ServiceAreas/NAServer/ServiceArea_World/solveServiceArea',
       serviceAreaParameters
-      )
-    console.log(resp)
-    
+    );
+    console.log(resp);
 
     this.closeSmartRouteModal();
   };
