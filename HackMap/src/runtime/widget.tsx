@@ -155,6 +155,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       }
       if (event.action.id === 'respondIt') {
         this.openRespondModal();
+        this.view.popup.close();
       }
     });
 
@@ -255,12 +256,6 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     } catch (e) {
       console.error(e);
       this.setState({ routeCalculation: 'failed' });
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.activeType) {
-      this.providerFL.definitionExpression = `SiteType = '${this.props.activeType}'`;
     }
   }
 

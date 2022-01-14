@@ -88,10 +88,10 @@
           },
           "bbox": {
             "left": "50%",
-            "top": "63px",
-            "width": "19.7%",
-            "height": "22.0%",
-            "right": "37.3%",
+            "top": "29px",
+            "width": "30.4%",
+            "height": "30.5%",
+            "right": "40.2%",
             "bottom": "62.1%"
           },
           "widgetId": "widget_3",
@@ -205,11 +205,11 @@
           },
           "bbox": {
             "left": "50%",
-            "top": "39px",
-            "width": "35.8%",
-            "height": "27.4%",
-            "right": "32.0%",
-            "bottom": "63.8%"
+            "top": "25px",
+            "width": "52.1%",
+            "height": "35.5%",
+            "right": "24.0%",
+            "bottom": "58.9%"
           },
           "widgetId": "widget_3",
           "isPending": false
@@ -352,13 +352,13 @@
           "linkParam": {},
           "scale": "Fit",
           "imageParam": {
-            "url": "${appResourceUrl}/images/widget_3/1642108772561.png",
-            "originalUrl": "${appResourceUrl}/images/widget_3/1642108772561.png",
-            "fileName": "1642108772561.png",
-            "originalName": "MicrosoftTeams-image.png",
+            "url": "${appResourceUrl}/images/widget_3/1642195960938.png",
+            "originalUrl": "${appResourceUrl}/images/widget_3/1642195960938.png",
+            "fileName": "1642195960938.png",
+            "originalName": "TestRouter_Pad.png",
             "imgSourceType": "BY_UPLOAD",
             "fileFormat": "image/png",
-            "originalId": "1642108772561",
+            "originalId": "1642195960938",
             "isUseCompress": false
           },
           "imgSourceType": "",
@@ -375,6 +375,7 @@
       "label": "Text 2",
       "config": {
         "text": "<p style=\"text-align: center;\"><span style=\"font-size: 15px; color: var(--dark-800);\">﻿The best way to find Covid-19 tests around you. You will be prompted to </span><strong style=\"font-size: 15px; color: rgb(33, 65, 85);\">Allow Location Services</strong><span style=\"font-size: 15px; color: var(--dark-800);\"> when using this application.</span></p>",
+        "placeholder": "<p style=\"text-align: center;\"><span style=\"color: var(--dark-800);\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span></p>",
         "style": {
           "verticalAlign": "start",
           "wrap": true
@@ -464,6 +465,7 @@
       "label": "Text 3",
       "config": {
         "text": "<p style=\"text-align: center;\"><strong style=\"font-size: 22px; color: rgb(33, 65, 85);\">Welcome to TestRouter</strong></p>",
+        "placeholder": "Double click to edit text",
         "style": {
           "verticalAlign": "start",
           "wrap": true
@@ -517,10 +519,7 @@
   "dataSources": {},
   "messageConfigs": {},
   "attributes": {
-    "portalUrl": "https://jeffscarmazzi.maps.arcgis.com",
-    "clientId": "",
-    "title": "Baseline",
-    "description": ""
+    "portalUrl": "https://jeffscarmazzi.maps.arcgis.com"
   },
   "sharedThemeVariables": null,
   "pageStructure": [
@@ -528,5 +527,5 @@
       "page_0": []
     }
   ],
-  "timestamp": 1642204864253
+  "timestamp": 1642213971532
 }
