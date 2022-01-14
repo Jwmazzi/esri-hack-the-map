@@ -9,11 +9,12 @@ import Locate from 'esri/widgets/Locate';
 import route from 'esri/rest/route';
 import Graphic from 'esri/Graphic';
 import FeatureSet from 'esri/rest/support/FeatureSet';
+import RouteResult from 'esri/rest/support/RouteResult';
 
 import { IMConfig } from '../config';
 import RouteParameters from 'esri/rest/support/RouteParameters';
-import { getPointGraphic } from '../../utils';
-import { Point } from 'esri/geometry';
+import { getPointGraphic, getPolylineSymbol } from '../../utils';
+import { Point, Polyline } from 'esri/geometry';
 
 interface MappedProps {
   activeType: string;
@@ -23,6 +24,8 @@ interface State {
   routeCalculation: 'idle' | 'calculating' | 'complete' | 'failed';
   isViewReady: boolean;
 }
+
+const USE_MOCKED_USER_LOCATION = true;
 
 export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig> & MappedProps, State> {
   private view: MapView;
@@ -99,7 +102,10 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     });
 
     this.map = new Map({
-      basemap: 'streets-navigation-vector',
+      // basemap: 'streets-navigation-vector',
+      // basemap: new Basemap({ portalItem: { id: '273bf8d5c8ac400183fc24e109d20bcf' } }), // from https://story.maps.arcgis.com/
+      basemap: 'arcgis-community', // from doc
+      // basemap: new Basemap({ portalItem: { id: '184f5b81589844699ca1e132d007920e' } }), // from doc
       layers: [this.providerFL],
     });
   }
@@ -136,7 +142,9 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     this.setState({ routeCalculation: 'calculating' });
 
     const feature = this.view.popup.selectedFeature;
-    const userLocation = await this.locator.locate();
+    const userLocation = USE_MOCKED_USER_LOCATION
+      ? { coords: { longitude: -117.182541, latitude: 34.055569 } }
+      : await this.locator.locate();
 
     if (!userLocation || !feature) {
       this.setState({ routeCalculation: 'failed' });
@@ -156,11 +164,11 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     // }
 
     const destPoint = feature.geometry as Point;
-    const orig = getPointGraphic(userLocation.coords, '#35AC46');
-    const dest = getPointGraphic(destPoint, '#62C1FB');
+    const origPointGraphic = getPointGraphic(userLocation.coords, '#62C1FB');
+    const destPointGraphic = getPointGraphic(destPoint, '#35AC46');
 
     // from user location to selected feature
-    const stops = new FeatureSet({ features: [orig, dest] });
+    const stops = new FeatureSet({ features: [origPointGraphic, destPointGraphic] });
 
     const routeParams = new RouteParameters({
       apiKey: '',
@@ -168,14 +176,27 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       outSpatialReference: {
         wkid: 3857,
       },
+      directionsOutputType: 'standard',
+      returnDirections: true,
     });
 
     try {
-      const routingRes = await route.solve(
+      const routingResponse = await route.solve(
         'https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World',
         routeParams
       );
-      console.log({ routingRes });
+
+      // @ts-expect-error - mismatching types
+      const routeResult: RouteResult = routingResponse.routeResults[0];
+
+      const routePolyGraphic = routeResult.route;
+      routePolyGraphic.symbol = getPolylineSymbol();
+
+      this.view.graphics.add(routePolyGraphic);
+      this.view.graphics.addMany([routePolyGraphic, origPointGraphic, destPointGraphic]);
+
+      this.view.goTo(routePolyGraphic.geometry.extent);
+
       this.setState({ routeCalculation: 'complete' });
     } catch (e) {
       console.error(e);
