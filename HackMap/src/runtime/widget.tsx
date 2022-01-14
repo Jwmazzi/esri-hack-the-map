@@ -130,6 +130,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       center: [-117.182541, 34.055569],
       popup: {
         dockEnabled: false,
+        collapseEnabled: false,
         dockOptions: {
           buttonEnabled: false,
           position: 'bottom-right',
