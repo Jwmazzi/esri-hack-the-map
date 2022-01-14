@@ -15,6 +15,8 @@ import { IMConfig } from '../config';
 import RouteParameters from 'esri/rest/support/RouteParameters';
 import { getPointGraphic, getPolylineSymbol } from '../../utils';
 import { Point, Polyline } from 'esri/geometry';
+import { FullWidthButton } from '../components/FullWidthButton';
+import HackModal from '../components/HackModal';
 
 interface MappedProps {
   activeType: string;
@@ -23,6 +25,7 @@ interface MappedProps {
 interface State {
   routeCalculation: 'idle' | 'calculating' | 'complete' | 'failed';
   isViewReady: boolean;
+  showModal: boolean;
 }
 
 const USE_MOCKED_USER_LOCATION = true;
@@ -42,6 +45,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     this.state = {
       routeCalculation: 'idle',
       isViewReady: false,
+      showModal: false,
     };
 
     const routeAction = {
@@ -211,8 +215,48 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
   }
 
   render() {
-    return <div className="widget-hack-map" id="edit-map" style={{ height: '100%' }}></div>;
+    return (
+      <div style={{ height: '100%' }}>
+        <div className="widget-hack-map" id="edit-map" style={{ height: '100%' }}></div>
+        <div
+          className="button-container"
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            width: '100%',
+            textAlign: 'center',
+            padding: '0 32px 24px',
+          }}
+        >
+          <FullWidthButton onClick={this.openSmartRouteModal}>SmartRoute</FullWidthButton>
+        </div>
+        <HackModal
+          toggle={this.closeSmartRouteModal}
+          isOpen={this.state.showModal}
+          onSubmit={this.handleSubmitSmartRoute}
+        />
+      </div>
+    );
   }
+
+  private openSmartRouteModal = () => {
+    this.setState({ showModal: true });
+  };
+
+  private closeSmartRouteModal = () => {
+    this.setState({ showModal: false });
+  };
+
+  private handleSubmitSmartRoute = (info: {
+    searchFor: string[];
+    transportMethod: 'walking' | 'driving';
+    maxTime: number;
+  }) => {
+    console.log({ info });
+    // TODO: use info
+
+    this.closeSmartRouteModal();
+  };
 }
 
 Widget.mapExtraStateProps = (state) => {
