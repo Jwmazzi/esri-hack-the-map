@@ -114,9 +114,9 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     this.routingTargetFL = new FeatureLayer({url: this.props.config.routingTargetsURL});
 
     this.map = new Map({
-      // basemap: 'streets-navigation-vector',
+      basemap: 'streets-navigation-vector',
       // basemap: new Basemap({ portalItem: { id: '273bf8d5c8ac400183fc24e109d20bcf' } }), // from https://story.maps.arcgis.com/
-      basemap: 'arcgis-community', // from doc
+      // basemap: 'arcgis-community', // from doc
       // basemap: new Basemap({ portalItem: { id: '184f5b81589844699ca1e132d007920e' } }), // from doc
       layers: [this.providerFL],
     });
@@ -130,6 +130,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       center: [-117.182541, 34.055569],
       popup: {
         dockEnabled: false,
+        collapseEnabled: false,
         dockOptions: {
           buttonEnabled: false,
           position: 'bottom-right',
@@ -191,7 +192,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     const stops = new FeatureSet({ features: [origPointGraphic, destPointGraphic] });
 
     const routeParams = new RouteParameters({
-      apiKey: '',
+      apiKey: this.props.config.apiKey,
       stops,
       outSpatialReference: {
         wkid: 3857,
@@ -325,7 +326,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     const userLocationGraphic = getPointGraphic(userLocation.coords);
 
     const serviceAreaParameters = new ServiceAreaParameters({
-      apiKey: '',
+      apiKey: this.props.config.apiKey,
       facilities: new FeatureSet({
         features: [userLocationGraphic],
       }),
