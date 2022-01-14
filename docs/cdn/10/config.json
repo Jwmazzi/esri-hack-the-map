@@ -193,8 +193,8 @@
           "setting": {
             "style": {},
             "autoProps": {
-              "left": false,
-              "right": true,
+              "left": true,
+              "right": false,
               "top": false,
               "bottom": true
             },
@@ -207,9 +207,9 @@
             "left": "50%",
             "top": "23px",
             "width": "36.5%",
-            "height": "26.5%",
-            "right": "32.0%",
-            "bottom": "68.4%"
+            "height": "27.1%",
+            "right": "31.8%",
+            "bottom": "67.8%"
           },
           "widgetId": "widget_3",
           "isPending": false
@@ -329,7 +329,8 @@
         "routingTargetsURL": "https://services1.arcgis.com/BteRGjYsGtVEXzaX/arcgis/rest/services/RoutingTargets/FeatureServer",
         "routingURL": "https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World",
         "feedbackURL": "https://services1.arcgis.com/BteRGjYsGtVEXzaX/arcgis/rest/services/UserFeedback/FeatureServer",
-        "_defaultstr": "{\"providerURL\":\"https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/SB_County_COVID_Testing/FeatureServer\",\n    \"routingTargetsURL\": \"https://services1.arcgis.com/BteRGjYsGtVEXzaX/arcgis/rest/services/RoutingTargets/FeatureServer\",\n    \"routingURL\": \"https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World\",\n    \"feedbackURL\": \"https://services1.arcgis.com/BteRGjYsGtVEXzaX/arcgis/rest/services/UserFeedback/FeatureServer\"\n}"
+        "apiKey": "AAPK5fa7b8f95aa1415f9723911fe558ed58ZWTg6Dl5rITcjdMBV8_jqAlm3j4Cyrf_ajSDscpNKxpDMC9KlZULBEtarxeY_qdw",
+        "_defaultstr": "{\"providerURL\":\"https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/SB_County_COVID_Testing/FeatureServer\",\n    \"routingTargetsURL\": \"https://services1.arcgis.com/BteRGjYsGtVEXzaX/arcgis/rest/services/RoutingTargets/FeatureServer\",\n    \"routingURL\": \"https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World\",\n    \"feedbackURL\": \"https://services1.arcgis.com/BteRGjYsGtVEXzaX/arcgis/rest/services/UserFeedback/FeatureServer\",\n    \"apiKey\": \"AAPK5fa7b8f95aa1415f9723911fe558ed58ZWTg6Dl5rITcjdMBV8_jqAlm3j4Cyrf_ajSDscpNKxpDMC9KlZULBEtarxeY_qdw\"\n}"
       },
       "id": "widget_2",
       "style": {
@@ -374,7 +375,6 @@
       "label": "Text 2",
       "config": {
         "text": "<p style=\"text-align: center;\"><span style=\"font-size: 15px; color: var(--dark-800);\">﻿The best way to find Covid-19 tests around you. You will be prompted to </span><strong style=\"font-size: 15px; color: rgb(33, 65, 85);\">Allow Location Services</strong><span style=\"font-size: 15px; color: var(--dark-800);\"> when using this application.</span></p>",
-        "placeholder": "<p style=\"text-align: center;\"><span style=\"color: var(--dark-800);\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span></p>",
         "style": {
           "verticalAlign": "start",
           "wrap": true
@@ -464,7 +464,6 @@
       "label": "Text 3",
       "config": {
         "text": "<p style=\"text-align: center;\"><strong style=\"font-size: 22px; color: rgb(33, 65, 85);\">Welcome to TestRouter</strong></p>",
-        "placeholder": "Double click to edit text",
         "style": {
           "verticalAlign": "start",
           "wrap": true
@@ -518,7 +517,10 @@
   "dataSources": {},
   "messageConfigs": {},
   "attributes": {
-    "portalUrl": "https://jeffscarmazzi.maps.arcgis.com"
+    "portalUrl": "https://jeffscarmazzi.maps.arcgis.com",
+    "clientId": "",
+    "title": "Baseline",
+    "description": ""
   },
   "sharedThemeVariables": null,
   "pageStructure": [
@@ -526,5 +528,5 @@
       "page_0": []
     }
   ],
-  "timestamp": 1642195735903
+  "timestamp": 1642196544999
 }
