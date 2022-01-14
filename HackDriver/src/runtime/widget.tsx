@@ -7,7 +7,7 @@ import { Container } from 'jimu-ui';
 import TestSelect from '../components/TestSelect';
 import TypeNavbar from '../components/TypeNavbar';
 
-const ALL_TYPES = ['In-Person Testing', 'Testing Kits'];
+const ALL_TYPES = ['Test Now', 'Test Later'];
 
 export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>, any> {
   constructor(props) {
