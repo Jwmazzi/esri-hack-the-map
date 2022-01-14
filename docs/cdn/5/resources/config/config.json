@@ -76,23 +76,23 @@
           "setting": {
             "style": {},
             "autoProps": {
-              "left": false,
-              "right": true,
+              "left": true,
+              "right": false,
               "top": false,
               "bottom": true
             },
             "vCenter": false,
-            "hCenter": true,
+            "hCenter": false,
             "lockParent": false,
             "lockLayout": false
           },
           "bbox": {
-            "left": "50%",
-            "top": "19px",
-            "width": "31.4%",
-            "height": "35.8%",
-            "right": "34.4%",
-            "bottom": "59.4%"
+            "left": "43.0%",
+            "top": "63px",
+            "width": "14.2%",
+            "height": "15.9%",
+            "right": "42.8%",
+            "bottom": "68.1%"
           },
           "widgetId": "widget_3",
           "isPending": false
@@ -181,13 +181,133 @@
       "setting": {
         "lockDescendants": true
       }
+    },
+    "layout_2": {
+      "type": "FIXED",
+      "setting": {
+        "lockDescendants": true
+      },
+      "content": {
+        "0": {
+          "type": "WIDGET",
+          "setting": {
+            "style": {},
+            "autoProps": {
+              "left": false,
+              "right": true,
+              "top": false,
+              "bottom": true
+            },
+            "vCenter": false,
+            "hCenter": true,
+            "lockParent": false,
+            "lockLayout": false
+          },
+          "bbox": {
+            "left": "50%",
+            "top": "30px",
+            "width": "28.5%",
+            "height": "20.9%",
+            "right": "35.6%",
+            "bottom": "71.4%"
+          },
+          "widgetId": "widget_3",
+          "isPending": false
+        },
+        "1": {
+          "type": "WIDGET",
+          "setting": {
+            "style": {},
+            "autoProps": {
+              "left": false,
+              "right": false,
+              "bottom": false,
+              "top": true,
+              "width": "STRETCH"
+            },
+            "vCenter": false,
+            "hCenter": false,
+            "order": 0,
+            "lockParent": false,
+            "lockLayout": false
+          },
+          "bbox": {
+            "left": "20.5px",
+            "top": "49.7%",
+            "width": "87.2%",
+            "height": "25.5%",
+            "right": "20.5px",
+            "bottom": "105px"
+          },
+          "widgetId": "widget_5",
+          "isPending": false
+        },
+        "2": {
+          "type": "WIDGET",
+          "bbox": {
+            "left": "50%",
+            "right": "32.1%",
+            "top": "81.9%",
+            "bottom": "8.1%",
+            "width": "35.6%",
+            "height": "10.0%"
+          },
+          "widgetId": "widget_6",
+          "setting": {
+            "autoProps": {
+              "left": false,
+              "right": true,
+              "top": true,
+              "bottom": false
+            },
+            "vCenter": false,
+            "hCenter": true
+          },
+          "isPending": false
+        },
+        "3": {
+          "type": "WIDGET",
+          "bbox": {
+            "left": "50%",
+            "right": "10.4%",
+            "top": "35.8%",
+            "bottom": "54.2%",
+            "width": "79.3%",
+            "height": "10.0%"
+          },
+          "widgetId": "widget_7",
+          "setting": {
+            "autoProps": {
+              "left": false,
+              "right": true,
+              "top": false,
+              "bottom": true
+            },
+            "vCenter": false,
+            "hCenter": true
+          },
+          "isPending": false
+        }
+      },
+      "order": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ]
     }
   },
   "exbVersion": "1.6.0",
   "mainSizeMode": "LARGE",
   "theme": "themes/default/",
   "forBuilderAttributes": {
-    "lockLayout": false
+    "lockLayout": false,
+    "viewPortSize": {
+      "MEDIUM": {
+        "width": 600,
+        "height": 1024
+      }
+    }
   },
   "template": "blankfullscreen",
   "widgets": {
@@ -240,7 +360,8 @@
             "isUseCompress": false
           },
           "imgSourceType": "",
-          "srcExpression": null
+          "srcExpression": null,
+          "imageFillMode": "FIT"
         },
         "styleConfig": {}
       },
@@ -251,7 +372,8 @@
       "version": "1.6.0",
       "label": "Text 2",
       "config": {
-        "text": "<p style=\"text-align: justify;\"><span style=\"color: var(--dark-800); font-size: 16px;\">﻿The best way to find Covid-19 tests around you. You will be prompted to </span><strong style=\"color: rgb(33, 65, 85); font-size: 16px;\">Allow Location Services</strong><span style=\"color: var(--dark-800); font-size: 16px;\"> when using this application.</span></p>",
+        "text": "<p style=\"text-align: center;\"><span style=\"font-size: 15px; color: var(--dark-800);\">﻿The best way to find Covid-19 tests around you. You will be prompted to </span><strong style=\"font-size: 15px; color: rgb(33, 65, 85);\">Allow Location Services</strong><span style=\"font-size: 15px; color: var(--dark-800);\"> when using this application.</span></p>",
+        "placeholder": "<p style=\"text-align: center;\"><span style=\"color: var(--dark-800);\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span></p>",
         "style": {
           "verticalAlign": "start",
           "wrap": true
@@ -340,7 +462,8 @@
       "version": "1.6.0",
       "label": "Text 3",
       "config": {
-        "text": "<p style=\"text-align: center;\"><strong style=\"color: rgb(33, 65, 85); font-size: 32px;\">Welcome to TestRouter</strong></p>",
+        "text": "<p style=\"text-align: center;\"><strong style=\"font-size: 22px; color: rgb(33, 65, 85);\">Welcome to TestRouter</strong></p>",
+        "placeholder": "Double click to edit text",
         "style": {
           "verticalAlign": "start",
           "wrap": true
@@ -361,6 +484,11 @@
           "position": "CENTER",
           "width": "480px",
           "height": "396px"
+        },
+        "SMALL": {
+          "position": "CENTER",
+          "width": "320px",
+          "height": "396px"
         }
       },
       "closeWhenClickOverlay": false,
@@ -373,7 +501,8 @@
       },
       "overlayColor": "var(--dark-900)",
       "layout": {
-        "LARGE": "layout_1"
+        "LARGE": "layout_1",
+        "SMALL": "layout_2"
       },
       "index": 0,
       "isSplash": true,
@@ -387,10 +516,7 @@
   "dataSources": {},
   "messageConfigs": {},
   "attributes": {
-    "portalUrl": "https://jeffscarmazzi.maps.arcgis.com",
-    "clientId": "",
-    "title": "Baseline",
-    "description": ""
+    "portalUrl": "https://jeffscarmazzi.maps.arcgis.com"
   },
   "sharedThemeVariables": null,
   "pageStructure": [
@@ -398,5 +524,5 @@
       "page_0": []
     }
   ],
-  "timestamp": 1642131131671
+  "timestamp": 1642152134576
 }
