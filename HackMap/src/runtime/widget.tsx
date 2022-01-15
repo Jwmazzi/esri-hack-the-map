@@ -18,11 +18,13 @@ import RouteParameters from 'esri/rest/support/RouteParameters';
 import { getLabelCIMSymbol, getLabelSVGSymbol, getPointGraphic, getPolylineSymbol, routeSVG, respondSVG, getSvgDataUrl } from '../../utils';
 import { Point, Polyline } from 'esri/geometry';
 import { FullWidthButton } from '../components/FullWidthButton';
-import HackModal from '../components/HackModal';
+import RouteModal from '../components/RouteModal';
 import RespondModal from '../components/RespondModal';
 import utils from 'esri/smartMapping/raster/support/utils';
 import Home from 'esri/widgets/Home';
 import esriConfig from 'esri/config';
+import Query from 'esri/rest/support/Query';
+import geometryEngine from 'esri/geometry/geometryEngineAsync'
 
 interface MappedProps {
   activeType: string;
@@ -70,6 +72,12 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       image: getSvgDataUrl(respondSVG)
     };
 
+    this.serviceAreaFL = new FeatureLayer({
+      title: 'Provider Service Areas',
+      url: this.props.config.serviceAreaURL,
+      visible: false
+    })
+
     this.providerFL = new FeatureLayer({
       title: 'SB County Providers',
       url: this.props.config.providerURL,
@@ -83,17 +91,17 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
             name: 'testingKits',
             expression: `var sum = $feature.TestsInStockPCR + $feature.TestsInStockRapid;
                          if (sum <= 50) {
-                           return "red"
+                           return "#0FBA4E"
                          } 
-                         return "green"
+                         return "#0FBA4E"
                         `,
           },
           {
             name: 'walkingIn',
             expression: `if ($feature.WalkInsAccepted == "Yes") {
-                           return "green";
+                           return "#0FBA4E"
                          } 
-                         return "red";
+                         return "#6B6B6B ";
                         `,
           },
           {
@@ -104,16 +112,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
         content: `
                 <p style="margin: auto">{SiteAddress}</p>
                 <p>Last Updated {expression/editElapse} Hours Ago</p>
-                <table>
-                  <tr>
-                    <td><span style="height: 15px; width: 15px; border-radius: 50%; display: inline-block; background-color: {expression/testingKits}"></span></td>
-                    <td><p style="margin: auto; padding-left: 10px">Testing Kits</p></td>
-                  </tr>
-                  <tr>
-                    <td><span style="height: 15px; width: 15px; border-radius: 50%; display: inline-block; background-color: {expression/walkingIn}"></span></td>
-                    <td><p style="margin: auto; padding-left: 10px">Walk-ins Accepted</p></td>
-                  </tr>
-                </table>
+                <p>Walk-ins Accepted: {WalkInsAccepted}</p>
                  `,
       },
     });
@@ -125,7 +124,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       // basemap: new Basemap({ portalItem: { id: '273bf8d5c8ac400183fc24e109d20bcf' } }), // from https://story.maps.arcgis.com/
       basemap: 'arcgis-community', // from doc
       // basemap: new Basemap({ portalItem: { id: '184f5b81589844699ca1e132d007920e' } }), // from doc
-      layers: [this.providerFL],
+      layers: [this.serviceAreaFL, this.providerFL],
     });
   }
 
@@ -275,7 +274,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
         >
           <FullWidthButton onClick={this.openSmartRouteModal}>SmartRoute</FullWidthButton>
         </div>
-        <HackModal
+        <RouteModal
           toggle={this.closeSmartRouteModal}
           isOpen={this.state.showModal}
           onSubmit={this.handleSubmitSmartRoute}
@@ -331,23 +330,35 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
 
     const userLocationGraphic = getPointGraphic(userLocation.coords);
 
-    const serviceAreaParameters = new ServiceAreaParameters({
-      apiKey: this.props.config.apiKey,
-      facilities: new FeatureSet({
-        features: [userLocationGraphic],
-      }),
-      defaultBreaks: [2.5],
-      travelMode: { type: 'automobile' },
-      travelDirection: 'to-facility',
-      outSpatialReference: { wkid: 3857 },
-      trimOuterPolygon: true,
+    const query = new Query({
+      geometry: userLocationGraphic.geometry,
+      returnGeometry: true,
+      outFields: ["*"],
+      orderByFields: ["ToBreak  "],
+      where: `ToBreak <= ${5}`
     });
 
-    const resp = await serviceArea.solve(
-      'https://route-api.arcgis.com/arcgis/rest/services/World/ServiceAreas/NAServer/ServiceArea_World/solveServiceArea',
-      serviceAreaParameters
-    );
-    console.log(resp);
+    const resp = await this.serviceAreaFL.queryFeatures(query);
+    console.log("Features", resp)
+
+    this.serviceAreaFL.definitionExpression = `OBJECTID in (${resp.features.map((f) => f.attributes.OBJECTID)})`;
+    this.serviceAreaFL.visible = true;
+
+    const unionResp = await geometryEngine.union(resp.features.map((f) => f.geometry));
+
+    this.view.goTo(unionResp.extent.expand(1.25))
+
+    const providerQuery = new Query({
+      geometry: unionResp,
+      returnGeometry: true,
+      orderByFields: ["TestsInStockPCR"],
+      outFields: ["*"]
+    });
+
+    const providerResp = await this.providerFL.queryFeatures(providerQuery);
+    console.log("Providers", providerResp.features[0])
+
+    // TODO - Route to The First Index
 
     this.closeSmartRouteModal();
   };

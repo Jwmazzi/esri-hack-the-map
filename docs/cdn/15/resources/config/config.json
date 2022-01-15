@@ -325,12 +325,13 @@
       "version": "1.6.0",
       "label": "Hackathon Map 1",
       "config": {
-        "providerURL": "https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/SB_County_COVID_Testing/FeatureServer",
+        "providerURL": "https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/SB_County_COVID_Testing_Sites/FeatureServer",
         "routingTargetsURL": "https://services1.arcgis.com/BteRGjYsGtVEXzaX/arcgis/rest/services/RoutingTargets/FeatureServer",
         "routingURL": "https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World",
         "feedbackURL": "https://services1.arcgis.com/BteRGjYsGtVEXzaX/arcgis/rest/services/UserFeedback/FeatureServer",
         "apiKey": "AAPK5fa7b8f95aa1415f9723911fe558ed58ZWTg6Dl5rITcjdMBV8_jqAlm3j4Cyrf_ajSDscpNKxpDMC9KlZULBEtarxeY_qdw",
-        "_defaultstr": "{\"providerURL\":\"https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/SB_County_COVID_Testing/FeatureServer\",\n    \"routingTargetsURL\": \"https://services1.arcgis.com/BteRGjYsGtVEXzaX/arcgis/rest/services/RoutingTargets/FeatureServer\",\n    \"routingURL\": \"https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World\",\n    \"feedbackURL\": \"https://services1.arcgis.com/BteRGjYsGtVEXzaX/arcgis/rest/services/UserFeedback/FeatureServer\",\n    \"apiKey\": \"AAPK5fa7b8f95aa1415f9723911fe558ed58ZWTg6Dl5rITcjdMBV8_jqAlm3j4Cyrf_ajSDscpNKxpDMC9KlZULBEtarxeY_qdw\"\n}"
+        "serviceAreaURL": "https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/TestingServiceAreas_Driving/FeatureServer",
+        "_defaultstr": "{\"providerURL\":\"https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/SB_County_COVID_Testing_Sites/FeatureServer\",\n    \"routingTargetsURL\": \"https://services1.arcgis.com/BteRGjYsGtVEXzaX/arcgis/rest/services/RoutingTargets/FeatureServer\",\n    \"routingURL\": \"https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World\",\n    \"feedbackURL\": \"https://services1.arcgis.com/BteRGjYsGtVEXzaX/arcgis/rest/services/UserFeedback/FeatureServer\",\n    \"apiKey\": \"AAPK5fa7b8f95aa1415f9723911fe558ed58ZWTg6Dl5rITcjdMBV8_jqAlm3j4Cyrf_ajSDscpNKxpDMC9KlZULBEtarxeY_qdw\",\n    \"serviceAreaURL\": \"https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/TestingServiceAreas_Driving/FeatureServer\"\n}"
       },
       "id": "widget_2",
       "style": {
@@ -527,5 +528,5 @@
       "page_0": []
     }
   ],
-  "timestamp": 1642213971532
+  "timestamp": 1642233795312
 }
