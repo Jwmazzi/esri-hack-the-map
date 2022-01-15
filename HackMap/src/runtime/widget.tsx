@@ -39,7 +39,7 @@ interface MappedProps {
 interface State {
   routeCalculation: 'idle' | 'calculating' | 'complete' | 'failed';
   isViewReady: boolean;
-  showModal: boolean;
+  showRouteModal: boolean;
   showResponseModal: boolean;
 }
 
@@ -65,7 +65,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     this.state = {
       routeCalculation: 'idle',
       isViewReady: false,
-      showModal: false,
+      showRouteModal: false,
       showResponseModal: false,
     };
 
@@ -286,7 +286,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
         </div>
         <RouteModal
           toggle={this.closeSmartRouteModal}
-          isOpen={this.state.showModal}
+          isOpen={this.state.showRouteModal}
           onSubmit={this.handleSubmitSmartRoute}
         />
         <RespondModal
@@ -301,11 +301,11 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
   }
 
   private openSmartRouteModal = () => {
-    this.setState({ showModal: true });
+    this.setState({ showRouteModal: true });
   };
 
   private closeSmartRouteModal = () => {
-    this.setState({ showModal: false });
+    this.setState({ showRouteModal: false });
   };
 
   private openRespondModal = () => {
