@@ -13,6 +13,7 @@ interface State {
   isCheckedForTestingKits: boolean;
   isCheckedForInPerson: boolean;
   transportMethod: 'driving' | 'walking';
+  maxTime: number;
 }
 
 export default class HackModal extends React.PureComponent<Props, State> {
@@ -23,6 +24,7 @@ export default class HackModal extends React.PureComponent<Props, State> {
       isCheckedForTestingKits: true,
       isCheckedForInPerson: true,
       transportMethod: 'driving',
+      maxTime: 10,
     };
   }
 
@@ -66,26 +68,7 @@ export default class HackModal extends React.PureComponent<Props, State> {
               </Label>
             </li>
           </ul>
-          <div>
-            <span
-              style={{
-                fontSize: '16px',
-                lineHeight: '20px',
-                color: '#151515',
-              }}
-            >
-              Transport method
-            </span>
-            <Select
-              a11y-description="Please pick an transport method"
-              hasContent
-              onChange={this.handleChangeForTransportMethod}
-              value={this.state.transportMethod}
-            >
-              <Option value="driving">Driving</Option>
-              <Option value="walking">Walking</Option>
-            </Select>
-          </div>
+          {this.renderRouteOptions()}
         </ModalBody>
         <ModalFooter style={{ padding: '32px' }}>
           <FullWidthButton onClick={this.handleSubmitSmartRoute}>Create route</FullWidthButton>
@@ -93,6 +76,46 @@ export default class HackModal extends React.PureComponent<Props, State> {
       </Modal>
     );
   }
+
+  renderRouteOptions = () => {
+    const labelTextStyle = {
+      fontSize: '16px',
+      lineHeight: '20px',
+      color: '#151515',
+    };
+    return (
+      <div style={{ display: 'grid', gap: '20px' }}>
+        <div>
+          <span style={labelTextStyle}>Transport method</span>
+          <Select
+            a11y-description="Please pick a transport method"
+            hasContent
+            onChange={this.handleChangeForTransportMethod}
+            value={this.state.transportMethod}
+          >
+            <Option value="driving">Driving</Option>
+            <Option value="walking">Walking</Option>
+          </Select>
+        </div>
+        <div>
+          <span style={labelTextStyle}>Max time</span>
+          <Select
+            a11y-description="Please pick a max time for travel"
+            hasContent
+            onChange={this.handleChangeForMaxTime}
+            value={this.state.maxTime}
+          >
+            {Array(11)
+              .fill(0)
+              .map((_, index) => (index + 1) * 5) // [5, 10, ..., 60];
+              .map((timeOption) => (
+                <Option key={timeOption} value={timeOption}>{`${timeOption} min`}</Option>
+              ))}
+          </Select>
+        </div>
+      </div>
+    );
+  };
 
   handleChangeForTestingKits = (evt: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
     this.setState({ isCheckedForTestingKits: checked });
@@ -106,16 +129,18 @@ export default class HackModal extends React.PureComponent<Props, State> {
     this.setState({ transportMethod: evt.target.value });
   };
 
+  handleChangeForMaxTime = (evt: any) => {
+    this.setState({ maxTime: evt.target.value });
+  };
+
   private handleSubmitSmartRoute = () => {
-    // TODO: connect these with states
     this.props.onSubmit({
       searchFor: [
         ...(this.state.isCheckedForTestingKits ? ['testingKits'] : []),
         ...(this.state.isCheckedForInPerson ? ['inPersonTest'] : []),
       ],
       transportMethod: this.state.transportMethod,
-      maxTime: 60, // min
+      maxTime: this.state.maxTime, // min
     });
-    this.props.toggle();
   };
 }
