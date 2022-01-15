@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { React, jsx } from 'jimu-core';
-import { Checkbox, Label, Modal, ModalBody, ModalFooter, ModalHeader, Select } from 'jimu-ui';
+import { Checkbox, Label, Modal, ModalBody, ModalFooter, ModalHeader, Select, Collapse, Button } from 'jimu-ui';
+
 import { FullWidthButton } from '../FullWidthButton';
 
 interface Props {
@@ -14,6 +15,7 @@ interface State {
   isCheckedForInPerson: boolean;
   transportMethod: 'driving' | 'walking';
   maxTime: number;
+  showRouteOptions: boolean;
 }
 
 export default class HackModal extends React.PureComponent<Props, State> {
@@ -24,7 +26,8 @@ export default class HackModal extends React.PureComponent<Props, State> {
       isCheckedForTestingKits: true,
       isCheckedForInPerson: true,
       transportMethod: 'driving',
-      maxTime: 10,
+      maxTime: 20,
+      showRouteOptions: false,
     };
   }
 
@@ -52,7 +55,7 @@ export default class HackModal extends React.PureComponent<Props, State> {
         </ModalHeader>
         <ModalBody style={{ padding: '0 32px' }}>
           <div style={{ fontSize: '16px', lineHeight: '20px', fontWeight: '600', color: '#000000' }}>
-            I'm searching for...
+            I'm searching for
           </div>
           <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gap: '16px', margin: '16px 0' }}>
             <li>
@@ -68,7 +71,7 @@ export default class HackModal extends React.PureComponent<Props, State> {
               </Label>
             </li>
           </ul>
-          {this.renderRouteOptions()}
+          {this.renderRouteOptionsCollapse()}
         </ModalBody>
         <ModalFooter style={{ padding: '32px' }}>
           <FullWidthButton onClick={this.handleSubmitSmartRoute}>Create route</FullWidthButton>
@@ -77,13 +80,13 @@ export default class HackModal extends React.PureComponent<Props, State> {
     );
   }
 
-  renderRouteOptions = () => {
+  renderRouteOptionsCollapse = () => {
     const labelTextStyle = {
       fontSize: '16px',
       lineHeight: '20px',
       color: '#151515',
     };
-    return (
+    const routeOptions = (
       <div style={{ display: 'grid', gap: '20px' }}>
         <div>
           <span style={labelTextStyle}>Transport method</span>
@@ -115,6 +118,26 @@ export default class HackModal extends React.PureComponent<Props, State> {
         </div>
       </div>
     );
+
+    return (
+      <div style={{ marginTop: '24px' }}>
+        <Button
+          type="tertiary"
+          size="lg"
+          onClick={this.handleCollapseToggle}
+          style={{ width: '100%', paddingLeft: 0, paddingRight: 0, textAlign: 'start' }}
+        >
+          <span
+            className={`esri-icon ${this.state.showRouteOptions ? 'esri-icon-down' : 'esri-icon-right'}`}
+            style={{ fontSize: '10px', marginRight: '8px' }}
+          />
+          {'Route options'}
+        </Button>
+        <Collapse style={{ marginTop: '12px' }} isOpen={this.state.showRouteOptions}>
+          {routeOptions}
+        </Collapse>
+      </div>
+    );
   };
 
   handleChangeForTestingKits = (evt: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
@@ -133,6 +156,10 @@ export default class HackModal extends React.PureComponent<Props, State> {
     this.setState({ maxTime: evt.target.value });
   };
 
+  handleCollapseToggle = () => {
+    this.setState(({ showRouteOptions }) => ({ showRouteOptions: !showRouteOptions }));
+  };
+
   private handleSubmitSmartRoute = () => {
     this.props.onSubmit({
       searchFor: [
@@ -142,5 +169,6 @@ export default class HackModal extends React.PureComponent<Props, State> {
       transportMethod: this.state.transportMethod,
       maxTime: this.state.maxTime, // min
     });
+    this.props.toggle();
   };
 }
