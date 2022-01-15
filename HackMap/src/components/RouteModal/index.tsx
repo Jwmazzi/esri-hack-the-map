@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { React, jsx } from 'jimu-core';
-import { Checkbox, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'jimu-ui';
+import { Checkbox, Label, Modal, ModalBody, ModalFooter, ModalHeader, Select } from 'jimu-ui';
 import { FullWidthButton } from '../FullWidthButton';
 
 interface Props {
@@ -12,6 +12,7 @@ interface Props {
 interface State {
   isCheckedForTestingKits: boolean;
   isCheckedForInPerson: boolean;
+  transportMethod: 'driving' | 'walking';
 }
 
 export default class HackModal extends React.PureComponent<Props, State> {
@@ -21,6 +22,7 @@ export default class HackModal extends React.PureComponent<Props, State> {
     this.state = {
       isCheckedForTestingKits: true,
       isCheckedForInPerson: true,
+      transportMethod: 'driving',
     };
   }
 
@@ -64,6 +66,26 @@ export default class HackModal extends React.PureComponent<Props, State> {
               </Label>
             </li>
           </ul>
+          <div>
+            <span
+              style={{
+                fontSize: '16px',
+                lineHeight: '20px',
+                color: '#151515',
+              }}
+            >
+              Transport method
+            </span>
+            <Select
+              a11y-description="Please pick an transport method"
+              hasContent
+              onChange={this.handleChangeForTransportMethod}
+              value={this.state.transportMethod}
+            >
+              <Option value="driving">Driving</Option>
+              <Option value="walking">Walking</Option>
+            </Select>
+          </div>
         </ModalBody>
         <ModalFooter style={{ padding: '32px' }}>
           <FullWidthButton onClick={this.handleSubmitSmartRoute}>Create route</FullWidthButton>
@@ -80,6 +102,10 @@ export default class HackModal extends React.PureComponent<Props, State> {
     this.setState({ isCheckedForInPerson: checked });
   };
 
+  handleChangeForTransportMethod = (evt: any) => {
+    this.setState({ transportMethod: evt.target.value });
+  };
+
   private handleSubmitSmartRoute = () => {
     // TODO: connect these with states
     this.props.onSubmit({
@@ -87,7 +113,7 @@ export default class HackModal extends React.PureComponent<Props, State> {
         ...(this.state.isCheckedForTestingKits ? ['testingKits'] : []),
         ...(this.state.isCheckedForInPerson ? ['inPersonTest'] : []),
       ],
-      transportMethod: 'driving',
+      transportMethod: this.state.transportMethod,
       maxTime: 60, // min
     });
     this.props.toggle();
