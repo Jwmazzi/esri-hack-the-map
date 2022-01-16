@@ -1,5 +1,5 @@
 import { React } from 'jimu-core';
-import { Navbar, Nav, NavLink, NavItem, Button, Row, Col } from 'jimu-ui';
+import { Nav, NavLink, NavItem, Col } from 'jimu-ui';
 
 interface Props {
   allTypes: string[];

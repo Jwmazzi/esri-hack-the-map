@@ -32,10 +32,6 @@ import Query from 'esri/rest/support/Query';
 import geometryEngine from 'esri/geometry/geometryEngineAsync';
 import Header from '../components/Header';
 
-interface MappedProps {
-  activeType: string;
-}
-
 interface State {
   routeCalculation: 'idle' | 'calculating' | 'complete' | 'failed';
   isViewReady: boolean;
@@ -46,7 +42,7 @@ interface State {
 const HEADER_HEIGHT = 56;
 const USE_MOCKED_USER_LOCATION = true;
 
-export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig> & MappedProps, State> {
+export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>, State> {
   private view: MapView;
   private map: Map;
   private locator: Locate;
@@ -54,9 +50,6 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
   private providerFL: FeatureLayer;
   private serviceAreaFL: FeatureLayer;
   private routingTargetFL: FeatureLayer;
-
-  // see end of file
-  static mapExtraStateProps: (state: any) => MappedProps;
 
   constructor(props) {
     super(props);
@@ -446,11 +439,3 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     this.closeSmartRouteModal();
   };
 }
-
-Widget.mapExtraStateProps = (state) => {
-  if (state.widgetsState.hack) {
-    return {
-      activeType: state.widgetsState.hack.activeType,
-    };
-  }
-};

@@ -16,7 +16,7 @@ interface State {
   showRouteOptions: boolean;
 }
 
-export default class HackModal extends React.PureComponent<Props, State> {
+export default class RouteModal extends React.PureComponent<Props, State> {
   constructor(props) {
     super(props);
 
