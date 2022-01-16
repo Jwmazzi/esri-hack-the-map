@@ -1,6 +1,7 @@
 {
   "apiKey": "",
-  "providerURL": "https://services.arcgis.com/jIL9msH9OI208GCb/arcgis/rest/services/SB_County_COVID_Testing/FeatureServer",
-  "routingTargetsURL": "",
-  "serviceAreaURL": ""
+  "providerURL":"https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/SB_County_COVID_Testing_Sites/FeatureServer",
+  "routingTargetsURL": "https://services1.arcgis.com/BteRGjYsGtVEXzaX/arcgis/rest/services/RoutingTargets/FeatureServer",
+  "feedbackURL": "https://services1.arcgis.com/BteRGjYsGtVEXzaX/arcgis/rest/services/UserFeedback/FeatureServer",
+  "serviceAreaURL": "https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/TestingServiceAreas_Driving/FeatureServer"
 }
