@@ -1,47 +1,43 @@
 /** @jsx jsx */
 import { React, jsx } from 'jimu-core';
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'jimu-ui';
+import { Modal, ModalBody, ModalHeader, Button } from 'jimu-ui';
 
 interface Props {
   toggle: () => void;
   isOpen: boolean;
-  onSubmit: (info: { searchFor: string[]; transportMethod: 'walking' | 'driving'; maxTime: number }) => void;
 }
 
 interface State {
   // TODO:
 }
 
-export default class HackModal extends React.PureComponent<Props, State> {
+export default class TestLaterModal extends React.PureComponent<Props, State> {
   constructor(props) {
     super(props);
 
     this.state = {
-      //   TODO:
+      // TODO:
     };
   }
 
   render() {
     return (
       <Modal toggle={this.props.toggle} isOpen={this.props.isOpen} centered>
-        <ModalHeader toggle={this.props.toggle}>SmartRoute</ModalHeader>
-        <ModalBody>I'm searching for...</ModalBody>
-        <ModalFooter>
-          <Button size="lg" block type="primary" onClick={this.handleSubmitSmartRoute}>
-            Create route
+        <ModalBody>
+          <div style={{ textAlign: 'center' }}>
+            <p>Coming Soon</p>
+            <legend>Find an appointment</legend>
+            <p>Avoid bouncing between websites with unclear availability and travel times</p>
+          </div>
+          <Button size="lg" block type="primary" onClick={this.props.toggle}>
+            Get notified
           </Button>
-        </ModalFooter>
+          <br />
+          <Button size="lg" block type="secondary" onClick={this.props.toggle}>
+            Not right now
+          </Button>
+        </ModalBody>
       </Modal>
     );
   }
-
-  private handleSubmitSmartRoute = () => {
-    // TODO: connect these with states
-    this.props.onSubmit({
-      searchFor: ['testingKits', 'inPersonTest'],
-      transportMethod: 'driving',
-      maxTime: 60, // min
-    });
-    this.props.toggle();
-  };
 }

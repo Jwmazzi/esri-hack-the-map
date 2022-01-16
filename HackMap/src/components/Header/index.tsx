@@ -1,7 +1,9 @@
 /** @jsx jsx */
 import { React, jsx } from 'jimu-core';
+import { Container } from 'jimu-ui';
 
 import { Logo } from '../Logo';
+import TestLaterModal from '../TestLaterModal';
 import TypeNavbar from '../TypeNavbar';
 
 const ALL_TYPES = ['Test Now', 'Test Later'] as const;
@@ -33,7 +35,7 @@ export default class Header extends React.PureComponent<Props, State> {
   };
 
   closeModal = () => {
-    this.setState({ showModal: false });
+    this.setState({ showModal: false, activeType: ALL_TYPES[0] });
   };
 
   render() {
@@ -54,7 +56,10 @@ export default class Header extends React.PureComponent<Props, State> {
           <Logo />
         </div>
         <div>
-          <TypeNavbar onClick={this.handleChangeType} currentType={this.state.activeType} allTypes={ALL_TYPES} />
+          <Container>
+            <TypeNavbar onClick={this.handleChangeType} currentType={this.state.activeType} allTypes={ALL_TYPES} />
+          </Container>
+          <TestLaterModal toggle={this.closeModal} isOpen={this.state.showModal} />
         </div>
         <div>{/* placeholder for account button */}</div>
       </div>
