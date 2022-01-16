@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import { React, jsx } from 'jimu-core';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from 'jimu-ui';
-import { FullWidthButton } from '../FullWidthButton';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'jimu-ui';
 
 interface Props {
   toggle: () => void;
@@ -28,7 +27,9 @@ export default class HackModal extends React.PureComponent<Props, State> {
         <ModalHeader toggle={this.props.toggle}>SmartRoute</ModalHeader>
         <ModalBody>I'm searching for...</ModalBody>
         <ModalFooter>
-          <FullWidthButton onClick={this.handleSubmitSmartRoute}>Create route</FullWidthButton>
+          <Button size="lg" block type="primary" onClick={this.handleSubmitSmartRoute}>
+            Create route
+          </Button>
         </ModalFooter>
       </Modal>
     );

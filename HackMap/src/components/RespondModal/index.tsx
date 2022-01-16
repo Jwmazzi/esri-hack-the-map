@@ -90,7 +90,7 @@ export default class RespondModal extends React.PureComponent<Props, State> {
               <Label for="userComment">Comments</Label>
               <TextInput id="userComment" name="userComment" placeholder="General observations . . ." />
             </FormGroup>
-            <Button block type="primary" onClick={this.submitResponse}>
+            <Button size="lg" block type="primary" onClick={this.submitResponse}>
               Submit Response
             </Button>
           </Form>

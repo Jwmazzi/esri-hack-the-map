@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { React, AllWidgetProps, jsx } from 'jimu-core';
+import { Button } from 'jimu-ui';
 
 import Map from 'esri/Map';
 import MapView from 'esri/views/MapView';
@@ -15,7 +16,6 @@ import serviceArea from 'esri/rest/serviceArea';
 import { IMConfig } from '../config';
 import RouteParameters from 'esri/rest/support/RouteParameters';
 import {
-  getLabelCIMSymbol,
   getLabelSVGSymbol,
   getPointGraphic,
   getPolylineSymbol,
@@ -24,7 +24,6 @@ import {
   getSvgDataUrl,
 } from '../../utils';
 import { Point, Polyline } from 'esri/geometry';
-import { FullWidthButton } from '../components/FullWidthButton';
 import RouteModal from '../components/RouteModal';
 import RespondModal from '../components/RespondModal';
 import Home from 'esri/widgets/Home';
@@ -285,7 +284,14 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
             padding: '0 32px 24px',
           }}
         >
-          <FullWidthButton onClick={this.openSmartRouteModal}>SmartRoute</FullWidthButton>
+          <Button
+            size="lg"
+            type="primary"
+            style={{ width: '100%', maxWidth: '360px' }}
+            onClick={this.openSmartRouteModal}
+          >
+            SmartRoute
+          </Button>
         </div>
         <RouteModal
           toggle={this.closeSmartRouteModal}
@@ -324,7 +330,6 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     transportMethod: 'walking' | 'driving';
     maxTime: number;
   }) => {
-
     this.view.graphics.removeAll();
     this.serviceAreaFL.visible = false;
 
