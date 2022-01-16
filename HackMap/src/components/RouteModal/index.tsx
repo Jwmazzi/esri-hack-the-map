@@ -2,8 +2,6 @@
 import { React, jsx } from 'jimu-core';
 import { Checkbox, Label, Modal, ModalBody, ModalFooter, ModalHeader, Select, Collapse, Button } from 'jimu-ui';
 
-import { FullWidthButton } from '../FullWidthButton';
-
 interface Props {
   toggle: () => void;
   isOpen: boolean;
@@ -18,7 +16,7 @@ interface State {
   showRouteOptions: boolean;
 }
 
-export default class HackModal extends React.PureComponent<Props, State> {
+export default class RouteModal extends React.PureComponent<Props, State> {
   constructor(props) {
     super(props);
 
@@ -74,7 +72,9 @@ export default class HackModal extends React.PureComponent<Props, State> {
           {this.renderRouteOptionsCollapse()}
         </ModalBody>
         <ModalFooter style={{ padding: '32px' }}>
-          <FullWidthButton onClick={this.handleSubmitSmartRoute}>Create route</FullWidthButton>
+          <Button size="lg" block type="primary" onClick={this.handleSubmitSmartRoute}>
+            Create route
+          </Button>
         </ModalFooter>
       </Modal>
     );

@@ -4,6 +4,7 @@ export interface Config {
   apiKey: string;
   providerURL: string;
   routingTargetsURL: string;
+  feedbackURL: string;
   serviceAreaURL: string;
 }
 

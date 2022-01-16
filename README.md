@@ -1,5 +1,7 @@
 # Hack the Map 5
 
+<img src="./logo.png" width="300px">
+
 ## Dev
 
 Using [Experience Builder 1.6](https://developers.arcgis.com/experience-builder/). The content of this repo should go inside `/client/your-extensions/widgets/`, e.g. `/client/your-extensions/widgets/README.md`.

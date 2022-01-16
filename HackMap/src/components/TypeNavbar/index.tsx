@@ -1,5 +1,5 @@
 import { React } from 'jimu-core';
-import { Navbar, Nav, NavLink, NavItem, Button, Row, Col } from 'jimu-ui';
+import { Nav, NavLink, NavItem, Col } from 'jimu-ui';
 
 interface Props {
   allTypes: string[];
@@ -7,7 +7,6 @@ interface Props {
   currentType: string;
 }
 
-/** @deprecated */
 export default class TypeNavbar extends React.Component<Props> {
   render() {
     return (
@@ -19,7 +18,7 @@ export default class TypeNavbar extends React.Component<Props> {
               <NavItem
                 active={isActive}
                 style={{
-                  boxShadow: isActive ? 'inset 0 -3px 0px 0px #0079C1' : undefined,
+                  boxShadow: isActive ? 'inset 0 -3px 0px 0px #076fe5' : undefined,
                   opacity: isActive ? 'initial' : 0.7,
                   display: 'inline-block',
                   height: '100%',

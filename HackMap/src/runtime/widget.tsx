@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { React, AllWidgetProps, jsx } from 'jimu-core';
+import { Button } from 'jimu-ui';
 
 import Map from 'esri/Map';
 import MapView from 'esri/views/MapView';
@@ -15,7 +16,6 @@ import serviceArea from 'esri/rest/serviceArea';
 import { IMConfig } from '../config';
 import RouteParameters from 'esri/rest/support/RouteParameters';
 import {
-  getLabelCIMSymbol,
   getLabelSVGSymbol,
   getPointGraphic,
   getPolylineSymbol,
@@ -24,17 +24,13 @@ import {
   getSvgDataUrl,
 } from '../../utils';
 import { Point, Polyline } from 'esri/geometry';
-import { FullWidthButton } from '../components/FullWidthButton';
 import RouteModal from '../components/RouteModal';
 import RespondModal from '../components/RespondModal';
 import Home from 'esri/widgets/Home';
 import esriConfig from 'esri/config';
 import Query from 'esri/rest/support/Query';
 import geometryEngine from 'esri/geometry/geometryEngineAsync';
-
-interface MappedProps {
-  activeType: string;
-}
+import Header from '../components/Header';
 
 interface State {
   routeCalculation: 'idle' | 'calculating' | 'complete' | 'failed';
@@ -43,9 +39,10 @@ interface State {
   showResponseModal: boolean;
 }
 
+const HEADER_HEIGHT = 56;
 const USE_MOCKED_USER_LOCATION = true;
 
-export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig> & MappedProps, State> {
+export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>, State> {
   private view: MapView;
   private map: Map;
   private locator: Locate;
@@ -53,9 +50,6 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
   private providerFL: FeatureLayer;
   private serviceAreaFL: FeatureLayer;
   private routingTargetFL: FeatureLayer;
-
-  // see end of file
-  static mapExtraStateProps: (state: any) => MappedProps;
 
   constructor(props) {
     super(props);
@@ -145,6 +139,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       map: this.map,
       zoom: 10,
       center: [-117.182541, 34.055569],
+      padding: { top: HEADER_HEIGHT },
       popup: {
         dockEnabled: false,
         collapseEnabled: false,
@@ -275,6 +270,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     return (
       <div style={{ height: '100%' }}>
         <div className="widget-hack-map" id="edit-map" style={{ height: '100%' }}></div>
+        <Header height={HEADER_HEIGHT} />
         <div
           className="button-container"
           style={{
@@ -285,7 +281,14 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
             padding: '0 32px 24px',
           }}
         >
-          <FullWidthButton onClick={this.openSmartRouteModal}>SmartRoute</FullWidthButton>
+          <Button
+            size="lg"
+            type="primary"
+            style={{ width: '100%', maxWidth: '360px' }}
+            onClick={this.openSmartRouteModal}
+          >
+            SmartRoute
+          </Button>
         </div>
         <RouteModal
           toggle={this.closeSmartRouteModal}
@@ -324,7 +327,6 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     transportMethod: 'walking' | 'driving';
     maxTime: number;
   }) => {
-
     this.view.graphics.removeAll();
     this.serviceAreaFL.visible = false;
 
@@ -373,7 +375,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     });
 
     const providerResp = await this.providerFL.queryFeatures(providerQuery);
-    const providerGraphic = getPointGraphic(providerResp.features[0].geometry, '#35AC46');
+    const providerGraphic = getPointGraphic(providerResp.features[0].geometry as Point, '#35AC46');
 
     const stops = new FeatureSet({ features: [userLocationGraphic, providerResp.features[0]] });
 
@@ -437,11 +439,3 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     this.closeSmartRouteModal();
   };
 }
-
-Widget.mapExtraStateProps = (state) => {
-  if (state.widgetsState.hack) {
-    return {
-      activeType: state.widgetsState.hack.activeType,
-    };
-  }
-};
