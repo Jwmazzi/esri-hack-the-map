@@ -18,7 +18,7 @@ export default class TypeNavbar extends React.Component<Props> {
               <NavItem
                 active={isActive}
                 style={{
-                  boxShadow: isActive ? 'inset 0 -3px 0px 0px #0079C1' : undefined,
+                  boxShadow: isActive ? 'inset 0 -3px 0px 0px #076fe5' : undefined,
                   opacity: isActive ? 'initial' : 0.7,
                   display: 'inline-block',
                   height: '100%',
