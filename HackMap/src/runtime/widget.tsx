@@ -30,6 +30,7 @@ import Home from 'esri/widgets/Home';
 import esriConfig from 'esri/config';
 import Query from 'esri/rest/support/Query';
 import geometryEngine from 'esri/geometry/geometryEngineAsync';
+import Header from '../components/Header';
 
 interface MappedProps {
   activeType: string;
@@ -42,6 +43,7 @@ interface State {
   showResponseModal: boolean;
 }
 
+const HEADER_HEIGHT = 56;
 const USE_MOCKED_USER_LOCATION = true;
 
 export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig> & MappedProps, State> {
@@ -144,6 +146,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       map: this.map,
       zoom: 10,
       center: [-117.182541, 34.055569],
+      padding: { top: HEADER_HEIGHT },
       popup: {
         dockEnabled: false,
         collapseEnabled: false,
@@ -274,6 +277,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     return (
       <div style={{ height: '100%' }}>
         <div className="widget-hack-map" id="edit-map" style={{ height: '100%' }}></div>
+        <Header height={HEADER_HEIGHT} />
         <div
           className="button-container"
           style={{
@@ -378,7 +382,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     });
 
     const providerResp = await this.providerFL.queryFeatures(providerQuery);
-    const providerGraphic = getPointGraphic(providerResp.features[0].geometry, '#35AC46');
+    const providerGraphic = getPointGraphic(providerResp.features[0].geometry as Point, '#35AC46');
 
     const stops = new FeatureSet({ features: [userLocationGraphic, providerResp.features[0]] });
 
