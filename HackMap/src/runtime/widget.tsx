@@ -31,6 +31,8 @@ import esriConfig from 'esri/config';
 import Query from 'esri/rest/support/Query';
 import geometryEngine from 'esri/geometry/geometryEngineAsync';
 import Header from '../components/Header';
+import ToastMessage from '../components/ToastMessage';
+import * as  networkService from 'esri/rest/networkService';
 
 interface State {
   routeCalculation: 'idle' | 'calculating' | 'complete' | 'failed';
@@ -61,6 +63,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       isViewReady: false,
       showRouteModal: false,
       showResponseModal: false,
+      toastText: ""
     };
 
     const routeAction = {
@@ -77,9 +80,15 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       image: getSvgDataUrl(respondSVG),
     };
 
-    this.serviceAreaFL = new FeatureLayer({
+    this.walkServiceAreaFL = new FeatureLayer({
       title: 'Provider Service Areas',
-      url: this.props.config.serviceAreaURL,
+      url: this.props.config.walkSAURL,
+      visible: false,
+    });
+
+    this.driveServiceAreaFL = new FeatureLayer({
+      title: 'Provider Service Areas',
+      url: this.props.config.driveSAURL,
       visible: false,
     });
 
@@ -104,9 +113,9 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
           {
             name: 'walkingIn',
             expression: `if ($feature.WalkInsAccepted == "Yes") {
-                           return "#0FBA4E"
+                           return "Walk-ins Accepted"
                          } 
-                         return "#6B6B6B ";
+                         return "";
                         `,
           },
           {
@@ -117,7 +126,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
         content: `
                 <p style="margin: auto">{SiteAddress}</p>
                 <p>Last Updated {expression/editElapse} Hours Ago</p>
-                <p>Walk-ins Accepted: {WalkInsAccepted}</p>
+                <p style="color: green">{expression/walkingIn}</p>
                  `,
       },
     });
@@ -129,7 +138,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       // basemap: new Basemap({ portalItem: { id: '273bf8d5c8ac400183fc24e109d20bcf' } }), // from https://story.maps.arcgis.com/
       basemap: 'arcgis-community', // from doc
       // basemap: new Basemap({ portalItem: { id: '184f5b81589844699ca1e132d007920e' } }), // from doc
-      layers: [this.serviceAreaFL, this.providerFL],
+      layers: [this.providerFL],
     });
   }
 
@@ -162,7 +171,6 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
         this.openRespondModal();
         this.view.popup.close();
         this.view.graphics.removeAll();
-        this.serviceAreaFL.visible = false;
       }
     });
 
@@ -177,7 +185,6 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     this.setState({ routeCalculation: 'calculating' });
 
     this.view.graphics.removeAll();
-    this.serviceAreaFL.visible = false;
 
     const feature = this.view.popup.selectedFeature;
     const userLocation = USE_MOCKED_USER_LOCATION
@@ -259,6 +266,9 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
         addFeatures: [new Graphic({ attributes: { SiteID: feature.attributes.SiteID } })],
       });
 
+      this.setToast("Address Copied to Clipboard", 2);
+      navigator.clipboard.writeText(feature.attributes.SiteAddress);
+
       this.setState({ routeCalculation: 'complete' });
     } catch (e) {
       console.error(e);
@@ -302,8 +312,25 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
           config={this.props.config}
           siteFeature={this.view != undefined ? this.view.popup.selectedFeature : -1}
         />
+        <ToastMessage
+          toastText={this.state.toastText}
+        />
       </div>
     );
+  }
+
+  private setToast = (message, duration) => {
+
+    this.setState({
+      toastText: message
+    });
+
+    setTimeout(() => {
+      this.setState({
+        toastText: ""
+      });
+    }, duration * 1000);
+
   }
 
   private openSmartRouteModal = () => {
@@ -328,7 +355,8 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     maxTime: number;
   }) => {
     this.view.graphics.removeAll();
-    this.serviceAreaFL.visible = false;
+
+    const transportMethod = info.transportMethod === "driving" ? "Driving Time" : "Walking Time";
 
     console.log({ info });
     // TODO: use info
@@ -349,37 +377,56 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
 
     const userLocationGraphic = getPointGraphic(userLocation.coords, '#62C1FB');
 
-    const query = new Query({
+    const saQuery = new Query({
       geometry: userLocationGraphic.geometry,
       returnGeometry: true,
       outFields: ['*'],
-      orderByFields: ['ToBreak  '],
-      where: `ToBreak <= ${5}`,
+      orderByFields: ['ToBreak'],
+      where: `ToBreak <= ${info.maxTime}`,
     });
 
-    const resp = await this.serviceAreaFL.queryFeatures(query);
-    console.log('Features', resp);
+    const saTarget = transportMethod === "Driving Time" ? this.driveServiceAreaFL : this.walkServiceAreaFL;
+    const resp = await saTarget.queryExtent(saQuery);
+    console.log("SA", resp)
 
-    this.serviceAreaFL.definitionExpression = `OBJECTID in (${resp.features.map((f) => f.attributes.OBJECTID)})`;
-    this.serviceAreaFL.visible = true;
+    if (!resp.extent) {
 
-    const unionResp = await geometryEngine.union(resp.features.map((f) => f.geometry));
+      this.setToast("SmartRoute Not Ready for Your Area!", 3)
+      return;
 
-    this.view.goTo(unionResp.extent.expand(1.25));
+    }
 
     const providerQuery = new Query({
-      geometry: unionResp,
+      geometry: resp.extent,
       returnGeometry: true,
-      orderByFields: ['TestsInStockPCR'],
-      outFields: ['*'],
-    });
+      outFields: ['*']
+    })
+
+    if (info.searchFor.includes('testingKits')) {
+      providerQuery.orderByFields = ['TestsInStockPCR DESC', 'TestsInStockRapid DESC'];
+    }
+
+    if (info.searchFor.includes('inPersonTest')) {
+      providerQuery.where = "WalkInsAccepted = 'Yes'"
+    } else {
+      providerQuery.where = "1=1"
+    }
+
+    console.log(providerQuery)
 
     const providerResp = await this.providerFL.queryFeatures(providerQuery);
     const providerGraphic = getPointGraphic(providerResp.features[0].geometry as Point, '#35AC46');
 
+    console.log(providerResp)
+
     const stops = new FeatureSet({ features: [userLocationGraphic, providerResp.features[0]] });
 
+    const serviceDescription = await networkService.default.fetchServiceDescription(this.props.config.routingURL, this.props.config.apiKey);
+    const { supportedTravelModes } = serviceDescription;
+    const driveTimeTravelMode = supportedTravelModes.find((mode) => mode.name === transportMethod);
+
     const routeParams = new RouteParameters({
+      travelMode: driveTimeTravelMode,
       apiKey: this.props.config.apiKey,
       stops,
       outSpatialReference: {
@@ -402,6 +449,9 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       routePolyGraphic.symbol = getPolylineSymbol();
       const routePolyline = routePolyGraphic.geometry as Polyline;
 
+      const travelTime = transportMethod === "Driving Time" ? 
+      routePolyGraphic.attributes.Total_TravelTime : routePolyGraphic.attributes.Total_WalkTime;
+
       const targetIndex = Math.floor(routePolyline.paths[0].length / 2);
       const targetGeom = routePolyline.paths[0][targetIndex];
 
@@ -417,7 +467,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
           },
         },
         // symbol: getLabelCIMCIMSymbol(`${Math.ceil(routePolyGraphic.attributes.Total_TravelTime)} min`),
-        symbol: getLabelSVGSymbol(`${Math.ceil(routePolyGraphic.attributes.Total_TravelTime)} min`),
+        symbol: getLabelSVGSymbol(`${Math.ceil(travelTime)} min`),
       });
 
       this.view.graphics.addMany([routePolyGraphic, userLocationGraphic, providerGraphic, travelTimeLabel]);
@@ -429,6 +479,9 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       this.routingTargetFL.applyEdits({
         addFeatures: [new Graphic({ attributes: { SiteID: providerResp.features[0].attributes.SiteID } })],
       });
+
+      this.setToast("Address Copied to Clipboard", 3);
+      navigator.clipboard.writeText(providerResp.features[0].attributes.SiteAddress);
 
       this.setState({ routeCalculation: 'complete' });
     } catch (e) {

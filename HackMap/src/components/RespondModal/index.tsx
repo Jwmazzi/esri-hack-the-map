@@ -69,21 +69,21 @@ export default class RespondModal extends React.PureComponent<Props, State> {
             <FormGroup tag="fieldset">
               <legend>Test Kit Availability</legend>
               <FormGroup check>
-                <Input data-tk value="yes" name="radio1" type="radio" /> <Label check>There was plent of stock.</Label>
+                <Input data-tk value="yes" name="radio1" type="radio" /> <Label check>There are many tests available.</Label>
               </FormGroup>
               <FormGroup check>
-                <Input data-tk value="no" name="radio1" type="radio" /> <Label check>Inventory is running low.</Label>
+                <Input data-tk value="no" name="radio1" type="radio" /> <Label check>There are few tests available.</Label>
               </FormGroup>
             </FormGroup>
             <FormGroup tag="fieldset">
               <legend>Walk-in Availability</legend>
               <FormGroup check>
                 <Input data-wk value="yes" name="radio2" type="radio" />{' '}
-                <Label check>I was seen without an appointment.</Label>
+                <Label check>Wait times are short at this location.</Label>
               </FormGroup>
               <FormGroup check>
                 <Input data-wk value="no" name="radio2" type="radio" />{' '}
-                <Label check>Wait times are too long at this location.</Label>
+                <Label check>Wait times are long at this location.</Label>
               </FormGroup>
             </FormGroup>
             <FormGroup>
