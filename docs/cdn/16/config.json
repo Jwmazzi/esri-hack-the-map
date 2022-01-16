@@ -22,9 +22,9 @@
             "left": "0.0%",
             "right": "0.0%",
             "top": "0.0%",
-            "bottom": "94.0%",
+            "bottom": "92.0%",
             "width": "100.0%",
-            "height": "6.0%"
+            "height": "8.0%"
           },
           "widgetId": "widget_1",
           "setting": {
@@ -44,10 +44,10 @@
           "bbox": {
             "left": "0.0%",
             "right": "0.0%",
-            "top": "6.0%",
+            "top": "8.7%",
             "bottom": "0.0%",
             "width": "100.0%",
-            "height": "94.0%"
+            "height": "91.3%"
           },
           "widgetId": "widget_2",
           "setting": {
@@ -71,32 +71,6 @@
     "layout_1": {
       "type": "FIXED",
       "content": {
-        "0": {
-          "type": "WIDGET",
-          "setting": {
-            "style": {},
-            "autoProps": {
-              "left": false,
-              "right": true,
-              "top": false,
-              "bottom": true
-            },
-            "vCenter": false,
-            "hCenter": true,
-            "lockParent": false,
-            "lockLayout": false
-          },
-          "bbox": {
-            "left": "50%",
-            "top": "29px",
-            "width": "30.4%",
-            "height": "30.5%",
-            "right": "40.2%",
-            "bottom": "62.1%"
-          },
-          "widgetId": "widget_3",
-          "isPending": false
-        },
         "2": {
           "type": "WIDGET",
           "setting": {
@@ -170,13 +144,34 @@
             "hCenter": true
           },
           "isPending": false
+        },
+        "5": {
+          "type": "WIDGET",
+          "bbox": {
+            "left": "50%",
+            "right": "26.4%",
+            "top": "1.4%",
+            "bottom": "55.7%",
+            "width": "38.6%",
+            "height": "42.9%"
+          },
+          "widgetId": "widget_8",
+          "setting": {
+            "autoProps": {
+              "left": true,
+              "right": false,
+              "top": false,
+              "bottom": true
+            },
+            "hCenter": true
+          }
         }
       },
       "order": [
-        "0",
         "2",
         "3",
-        "4"
+        "4",
+        "5"
       ],
       "setting": {
         "lockDescendants": true
@@ -188,32 +183,6 @@
         "lockDescendants": true
       },
       "content": {
-        "0": {
-          "type": "WIDGET",
-          "setting": {
-            "style": {},
-            "autoProps": {
-              "left": false,
-              "right": true,
-              "top": false,
-              "bottom": true
-            },
-            "vCenter": false,
-            "hCenter": true,
-            "lockParent": false,
-            "lockLayout": false
-          },
-          "bbox": {
-            "left": "50%",
-            "top": "25px",
-            "width": "52.1%",
-            "height": "35.5%",
-            "right": "24.0%",
-            "bottom": "58.9%"
-          },
-          "widgetId": "widget_3",
-          "isPending": false
-        },
         "1": {
           "type": "WIDGET",
           "setting": {
@@ -287,13 +256,36 @@
             "hCenter": true
           },
           "isPending": false
+        },
+        "4": {
+          "type": "WIDGET",
+          "bbox": {
+            "left": "50%",
+            "right": "26.2%",
+            "top": "4.1%",
+            "bottom": "57.9%",
+            "width": "47.5%",
+            "height": "38.0%"
+          },
+          "widgetId": "widget_9",
+          "setting": {
+            "autoProps": {
+              "left": false,
+              "right": true,
+              "top": false,
+              "bottom": true
+            },
+            "vCenter": false,
+            "hCenter": true
+          },
+          "isPending": false
         }
       },
       "order": [
-        "0",
         "1",
         "2",
-        "3"
+        "3",
+        "4"
       ]
     }
   },
@@ -342,41 +334,12 @@
         }
       }
     },
-    "widget_3": {
-      "uri": "widgets/common/image/",
-      "version": "1.6.0",
-      "label": "Image 1",
-      "config": {
-        "functionConfig": {
-          "altText": "",
-          "toolTip": "",
-          "linkParam": {},
-          "scale": "Fit",
-          "imageParam": {
-            "url": "${appResourceUrl}/images/widget_3/1642195960938.png",
-            "originalUrl": "${appResourceUrl}/images/widget_3/1642195960938.png",
-            "fileName": "1642195960938.png",
-            "originalName": "TestRouter_Pad.png",
-            "imgSourceType": "BY_UPLOAD",
-            "fileFormat": "image/png",
-            "originalId": "1642195960938",
-            "isUseCompress": false
-          },
-          "imgSourceType": "",
-          "srcExpression": null,
-          "imageFillMode": "FILL"
-        },
-        "styleConfig": {}
-      },
-      "id": "widget_3"
-    },
     "widget_5": {
       "uri": "widgets/common/text/",
       "version": "1.6.0",
       "label": "Text 2",
       "config": {
         "text": "<p style=\"text-align: center;\"><span style=\"font-size: 15px; color: var(--dark-800);\">﻿The best way to find Covid-19 tests around you. You will be prompted to </span><strong style=\"font-size: 15px; color: rgb(33, 65, 85);\">Allow Location Services</strong><span style=\"font-size: 15px; color: var(--dark-800);\"> when using this application.</span></p>",
-        "placeholder": "<p style=\"text-align: center;\"><span style=\"color: var(--dark-800);\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span></p>",
         "style": {
           "verticalAlign": "start",
           "wrap": true
@@ -466,13 +429,66 @@
       "label": "Text 3",
       "config": {
         "text": "<p style=\"text-align: center;\"><strong style=\"font-size: 22px; color: rgb(33, 65, 85);\">Welcome to TestRouter</strong></p>",
-        "placeholder": "Double click to edit text",
         "style": {
           "verticalAlign": "start",
           "wrap": true
         }
       },
       "id": "widget_7"
+    },
+    "widget_8": {
+      "uri": "widgets/common/image/",
+      "version": "1.6.0",
+      "label": "Image 1",
+      "config": {
+        "functionConfig": {
+          "altText": "",
+          "toolTip": "",
+          "linkParam": {},
+          "scale": "Fit",
+          "imageParam": {
+            "url": "${appResourceUrl}/images/widget_8/1642296041308.png",
+            "originalUrl": "${appResourceUrl}/images/widget_8/1642296041308.png",
+            "fileName": "1642296041308.png",
+            "originalName": "TestRouter_Pad.png",
+            "imgSourceType": "BY_UPLOAD",
+            "fileFormat": "image/png",
+            "originalId": "1642296041308",
+            "isUseCompress": false
+          },
+          "imgSourceType": "",
+          "srcExpression": null
+        },
+        "styleConfig": {}
+      },
+      "id": "widget_8"
+    },
+    "widget_9": {
+      "uri": "widgets/common/image/",
+      "version": "1.6.0",
+      "label": "Image 2",
+      "config": {
+        "functionConfig": {
+          "altText": "",
+          "toolTip": "",
+          "linkParam": {},
+          "scale": "Fit",
+          "imageParam": {
+            "url": "${appResourceUrl}/images/widget_9/1642296109563.png",
+            "originalUrl": "${appResourceUrl}/images/widget_9/1642296109563.png",
+            "fileName": "1642296109563.png",
+            "originalName": "TestRouter_Pad.png",
+            "imgSourceType": "BY_UPLOAD",
+            "fileFormat": "image/png",
+            "originalId": "1642296109563",
+            "isUseCompress": false
+          },
+          "imgSourceType": "",
+          "srcExpression": null
+        },
+        "styleConfig": {}
+      },
+      "id": "widget_9"
     }
   },
   "widgetsManifest": {},
@@ -520,7 +536,10 @@
   "dataSources": {},
   "messageConfigs": {},
   "attributes": {
-    "portalUrl": "https://jeffscarmazzi.maps.arcgis.com"
+    "portalUrl": "https://jeffscarmazzi.maps.arcgis.com",
+    "clientId": "",
+    "title": "Baseline",
+    "description": ""
   },
   "sharedThemeVariables": null,
   "pageStructure": [
@@ -528,5 +547,5 @@
       "page_0": []
     }
   ],
-  "timestamp": 1642233795312
+  "timestamp": 1642314121377
 }
