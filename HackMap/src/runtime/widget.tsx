@@ -4,7 +4,6 @@ import { React, AllWidgetProps, jsx } from 'jimu-core';
 import Map from 'esri/Map';
 import MapView from 'esri/views/MapView';
 import FeatureLayer from 'esri/layers/FeatureLayer';
-import LayerList from 'esri/widgets/LayerList';
 import Locate from 'esri/widgets/Locate';
 import route from 'esri/rest/route';
 import Graphic from 'esri/Graphic';
@@ -15,16 +14,23 @@ import TravelMode from 'esri/rest/support/TravelMode';
 import serviceArea from 'esri/rest/serviceArea';
 import { IMConfig } from '../config';
 import RouteParameters from 'esri/rest/support/RouteParameters';
-import { getLabelCIMSymbol, getLabelSVGSymbol, getPointGraphic, getPolylineSymbol, routeSVG, respondSVG, getSvgDataUrl } from '../../utils';
+import {
+  getLabelCIMSymbol,
+  getLabelSVGSymbol,
+  getPointGraphic,
+  getPolylineSymbol,
+  routeSVG,
+  respondSVG,
+  getSvgDataUrl,
+} from '../../utils';
 import { Point, Polyline } from 'esri/geometry';
 import { FullWidthButton } from '../components/FullWidthButton';
 import RouteModal from '../components/RouteModal';
 import RespondModal from '../components/RespondModal';
-import utils from 'esri/smartMapping/raster/support/utils';
 import Home from 'esri/widgets/Home';
 import esriConfig from 'esri/config';
 import Query from 'esri/rest/support/Query';
-import geometryEngine from 'esri/geometry/geometryEngineAsync'
+import geometryEngine from 'esri/geometry/geometryEngineAsync';
 
 interface MappedProps {
   activeType: string;
@@ -33,7 +39,7 @@ interface MappedProps {
 interface State {
   routeCalculation: 'idle' | 'calculating' | 'complete' | 'failed';
   isViewReady: boolean;
-  showModal: boolean;
+  showRouteModal: boolean;
   showResponseModal: boolean;
 }
 
@@ -42,8 +48,11 @@ const USE_MOCKED_USER_LOCATION = true;
 export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig> & MappedProps, State> {
   private view: MapView;
   private map: Map;
-  private providerFL: FeatureLayer;
   private locator: Locate;
+
+  private providerFL: FeatureLayer;
+  private serviceAreaFL: FeatureLayer;
+  private routingTargetFL: FeatureLayer;
 
   // see end of file
   static mapExtraStateProps: (state: any) => MappedProps;
@@ -56,27 +65,29 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     this.state = {
       routeCalculation: 'idle',
       isViewReady: false,
-      showModal: false,
+      showRouteModal: false,
       showResponseModal: false,
     };
 
     const routeAction = {
       title: 'Directions',
       id: 'routeIt',
-      image: getSvgDataUrl(routeSVG)
+      type: 'button' as const,
+      image: getSvgDataUrl(routeSVG),
     };
 
     const respondAction = {
       title: 'Respond',
       id: 'respondIt',
-      image: getSvgDataUrl(respondSVG)
+      type: 'button' as const,
+      image: getSvgDataUrl(respondSVG),
     };
 
     this.serviceAreaFL = new FeatureLayer({
       title: 'Provider Service Areas',
       url: this.props.config.serviceAreaURL,
-      visible: false
-    })
+      visible: false,
+    });
 
     this.providerFL = new FeatureLayer({
       title: 'SB County Providers',
@@ -117,7 +128,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       },
     });
 
-    this.routingTargetFL = new FeatureLayer({url: this.props.config.routingTargetsURL});
+    this.routingTargetFL = new FeatureLayer({ url: this.props.config.routingTargetsURL });
 
     this.map = new Map({
       // basemap: 'streets-navigation-vector',
@@ -140,9 +151,9 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
         dockOptions: {
           buttonEnabled: false,
           position: 'bottom-right',
-          breakpoint: false
-        }
-      }
+          breakpoint: false,
+        },
+      },
     });
 
     await this.view.when();
@@ -160,17 +171,16 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
 
     this.locator = new Locate({ view: this.view });
     this.view.ui.add(this.locator, 'top-left');
-    
+
     const home = new Home({ view: this.view });
     this.view.ui.add(home, 'top-left');
-
   }
 
   async handleRouting() {
     this.setState({ routeCalculation: 'calculating' });
 
     this.view.graphics.removeAll();
-    
+
     const feature = this.view.popup.selectedFeature;
     const userLocation = USE_MOCKED_USER_LOCATION
       ? { coords: { longitude: -117.182541, latitude: 34.055569 } }
@@ -227,7 +237,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       const targetGeom = routePolyline.paths[0][targetIndex];
 
       const travelTimeLabel = new Graphic({
-        attributes: {'route': 0},
+        attributes: { route: 0 },
         geometry: {
           // @ts-expect-error auto cast
           type: 'point',
@@ -248,7 +258,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       this.view.goTo(routePolyline.extent.expand(1.25));
 
       this.routingTargetFL.applyEdits({
-        addFeatures: [new Graphic({attributes: {SiteID: feature.attributes.SiteID}})]
+        addFeatures: [new Graphic({ attributes: { SiteID: feature.attributes.SiteID } })],
       });
 
       this.setState({ routeCalculation: 'complete' });
@@ -276,7 +286,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
         </div>
         <RouteModal
           toggle={this.closeSmartRouteModal}
-          isOpen={this.state.showModal}
+          isOpen={this.state.showRouteModal}
           onSubmit={this.handleSubmitSmartRoute}
         />
         <RespondModal
@@ -291,11 +301,11 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
   }
 
   private openSmartRouteModal = () => {
-    this.setState({ showModal: true });
+    this.setState({ showRouteModal: true });
   };
 
   private closeSmartRouteModal = () => {
-    this.setState({ showModal: false });
+    this.setState({ showRouteModal: false });
   };
 
   private openRespondModal = () => {
@@ -333,30 +343,30 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     const query = new Query({
       geometry: userLocationGraphic.geometry,
       returnGeometry: true,
-      outFields: ["*"],
-      orderByFields: ["ToBreak  "],
-      where: `ToBreak <= ${5}`
+      outFields: ['*'],
+      orderByFields: ['ToBreak  '],
+      where: `ToBreak <= ${5}`,
     });
 
     const resp = await this.serviceAreaFL.queryFeatures(query);
-    console.log("Features", resp)
+    console.log('Features', resp);
 
     this.serviceAreaFL.definitionExpression = `OBJECTID in (${resp.features.map((f) => f.attributes.OBJECTID)})`;
     this.serviceAreaFL.visible = true;
 
     const unionResp = await geometryEngine.union(resp.features.map((f) => f.geometry));
 
-    this.view.goTo(unionResp.extent.expand(1.25))
+    this.view.goTo(unionResp.extent.expand(1.25));
 
     const providerQuery = new Query({
       geometry: unionResp,
       returnGeometry: true,
-      orderByFields: ["TestsInStockPCR"],
-      outFields: ["*"]
+      orderByFields: ['TestsInStockPCR'],
+      outFields: ['*'],
     });
 
     const providerResp = await this.providerFL.queryFeatures(providerQuery);
-    console.log("Providers", providerResp.features[0])
+    console.log('Providers', providerResp.features[0]);
 
     // TODO - Route to The First Index
 
