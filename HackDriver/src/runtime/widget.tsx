@@ -4,7 +4,6 @@ import { IMConfig } from '../config';
 
 import { Container } from 'jimu-ui';
 
-import TestSelect from '../components/TestSelect';
 import TypeNavbar from '../components/TypeNavbar';
 import TestLaterModal from '../components/TestLaterModal';
 
@@ -16,33 +15,28 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
 
     this.state = {
       activeType: ALL_TYPES[0],
-      showModal: false
+      showModal: false,
     };
   }
 
   onClick = (activeType) => {
-
-    if (activeType == "Test Later") {
+    if (activeType == 'Test Later') {
       this.setState({
-        showModal: true
-      })
+        showModal: true,
+      });
     }
-
   };
 
   closeModal = () => {
     this.setState({
-      showModal: false
-    })
-  }
+      showModal: false,
+    });
+  };
 
   render() {
     return (
-      <Container style={{ boxShadow: '0px 1px 0px #cacaca' }}>
-        <TestLaterModal
-        toggle={this.closeModal}
-        isOpen={this.state.showModal}
-        />
+      <Container style={{ boxShadow: 'inset 0px -1px 0px #cacaca' }}>
+        <TestLaterModal toggle={this.closeModal} isOpen={this.state.showModal} />
         <TypeNavbar onClick={this.onClick} currentType={this.state.activeType} allTypes={ALL_TYPES} />
       </Container>
       // <TestSelect onClick={this.onClick} />
