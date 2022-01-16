@@ -166,6 +166,8 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       if (event.action.id === 'respondIt') {
         this.openRespondModal();
         this.view.popup.close();
+        this.view.graphics.removeAll();
+        this.serviceAreaFL.visible = false;
       }
     });
 
@@ -180,6 +182,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     this.setState({ routeCalculation: 'calculating' });
 
     this.view.graphics.removeAll();
+    this.serviceAreaFL.visible = false;
 
     const feature = this.view.popup.selectedFeature;
     const userLocation = USE_MOCKED_USER_LOCATION
@@ -321,6 +324,10 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     transportMethod: 'walking' | 'driving';
     maxTime: number;
   }) => {
+
+    this.view.graphics.removeAll();
+    this.serviceAreaFL.visible = false;
+
     console.log({ info });
     // TODO: use info
     const userLocation = USE_MOCKED_USER_LOCATION
@@ -338,7 +345,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     //   speed: null;
     // }
 
-    const userLocationGraphic = getPointGraphic(userLocation.coords);
+    const userLocationGraphic = getPointGraphic(userLocation.coords, '#62C1FB');
 
     const query = new Query({
       geometry: userLocationGraphic.geometry,
@@ -366,9 +373,66 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     });
 
     const providerResp = await this.providerFL.queryFeatures(providerQuery);
-    console.log('Providers', providerResp.features[0]);
+    const providerGraphic = getPointGraphic(providerResp.features[0].geometry, '#35AC46');
 
-    // TODO - Route to The First Index
+    const stops = new FeatureSet({ features: [userLocationGraphic, providerResp.features[0]] });
+
+    const routeParams = new RouteParameters({
+      apiKey: this.props.config.apiKey,
+      stops,
+      outSpatialReference: {
+        wkid: 3857,
+      },
+      directionsOutputType: 'standard',
+      returnDirections: true,
+    });
+
+    try {
+      const routingResponse = await route.solve(
+        'https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World',
+        routeParams
+      );
+
+      // @ts-expect-error - mismatching types
+      const routeResult: RouteResult = routingResponse.routeResults[0];
+
+      const routePolyGraphic = routeResult.route;
+      routePolyGraphic.symbol = getPolylineSymbol();
+      const routePolyline = routePolyGraphic.geometry as Polyline;
+
+      const targetIndex = Math.floor(routePolyline.paths[0].length / 2);
+      const targetGeom = routePolyline.paths[0][targetIndex];
+
+      const travelTimeLabel = new Graphic({
+        attributes: { route: 0 },
+        geometry: {
+          // @ts-expect-error auto cast
+          type: 'point',
+          x: targetGeom[0],
+          y: targetGeom[1],
+          spatialReference: {
+            wkid: 3857,
+          },
+        },
+        // symbol: getLabelCIMCIMSymbol(`${Math.ceil(routePolyGraphic.attributes.Total_TravelTime)} min`),
+        symbol: getLabelSVGSymbol(`${Math.ceil(routePolyGraphic.attributes.Total_TravelTime)} min`),
+      });
+
+      this.view.graphics.addMany([routePolyGraphic, userLocationGraphic, providerGraphic, travelTimeLabel]);
+
+      this.view.popup.close();
+
+      this.view.goTo(routePolyline.extent.expand(1.25));
+
+      this.routingTargetFL.applyEdits({
+        addFeatures: [new Graphic({ attributes: { SiteID: providerResp.features[0].attributes.SiteID } })],
+      });
+
+      this.setState({ routeCalculation: 'complete' });
+    } catch (e) {
+      console.error(e);
+      this.setState({ routeCalculation: 'failed' });
+    }
 
     this.closeSmartRouteModal();
   };

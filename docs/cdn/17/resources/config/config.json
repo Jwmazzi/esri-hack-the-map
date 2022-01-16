@@ -22,9 +22,9 @@
             "left": "0.0%",
             "right": "0.0%",
             "top": "0.0%",
-            "bottom": "92.0%",
+            "bottom": "91.5%",
             "width": "100.0%",
-            "height": "8.0%"
+            "height": "8.5%"
           },
           "widgetId": "widget_1",
           "setting": {
@@ -44,10 +44,10 @@
           "bbox": {
             "left": "0.0%",
             "right": "0.0%",
-            "top": "8.7%",
+            "top": "8.3%",
             "bottom": "0.0%",
             "width": "100.0%",
-            "height": "91.3%"
+            "height": "91.7%"
           },
           "widgetId": "widget_2",
           "setting": {
@@ -330,7 +330,7 @@
         "border": {
           "type": "solid",
           "color": "var(--dark-500)",
-          "width": "1px"
+          "width": "0px"
         }
       }
     },
@@ -546,5 +546,5 @@
       "page_0": []
     }
   ],
-  "timestamp": 1642314121377
+  "timestamp": 1642320187332
 }

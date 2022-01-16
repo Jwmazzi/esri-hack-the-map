@@ -39,8 +39,9 @@ export const getPinPointSymbol = () => {
 export const getCirclePointSymbol = (color: string | number[]): SimpleMarkerSymbol => {
   return {
     type: 'simple-marker',
+    style: "square",
     // @ts-expect-error auto cast
-    size: '18px', // pixels
+    size: '25px', // pixels
     outline: {
       // @ts-expect-error auto cast
       color: '#fff',
