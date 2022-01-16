@@ -7,6 +7,7 @@ interface Props {
   currentType: string;
 }
 
+/** @deprecated */
 export default class TypeNavbar extends React.Component<Props> {
   render() {
     return (

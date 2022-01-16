@@ -9,6 +9,7 @@ import TestLaterModal from '../components/TestLaterModal';
 
 const ALL_TYPES = ['Test Now', 'Test Later'];
 
+/** @deprecated */
 export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>, any> {
   constructor(props) {
     super(props);

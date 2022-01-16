@@ -2,6 +2,7 @@
 import { React, jsx } from 'jimu-core';
 import { Modal, ModalBody, ModalHeader, Button } from 'jimu-ui';
 
+/** @deprecated */
 export default class RespondModal extends React.PureComponent<Props, State> {
   constructor(props) {
     super(props);
