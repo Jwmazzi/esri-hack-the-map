@@ -14,7 +14,7 @@ You can visit [TestRouter](https://jwmazzi.github.io/esri-hack-the-map) via GitH
 
 # Running TestRouter Locally with Experience Builder
 
-To run or expand upon TestRouter on your own machine, [install](https://developers.arcgis.com/experience-builder/guide/install-guide/) the Developer Edition of Experience Builder, pull the HackMap Widget from this repository under the client/your-extensions/widgets folder in your Experience Builder deployment, and start hacking!.
+To run or expand upon TestRouter on your own machine, [install](https://developers.arcgis.com/experience-builder/guide/install-guide/) the Developer Edition of Experience Builder, pull the HackMap Widget from this repository under the client/your-extensions/widgets folder in your Experience Builder deployment, and start hacking!
 
 <br/>
 
