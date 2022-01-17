@@ -8,7 +8,7 @@ You can visit [TestRouter](https://jwmazzi.github.io/esri-hack-the-map) via GitH
 
 ## PopUp Interface
 
-<img src="./images/popup.png" width="300px">
+<img src="./images/popup_view.png" width="300px">
 <br/>
 
 In the PopUp for each of the provider locations, you will see the following [buttons](https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html) added to the default PopUp:
@@ -18,7 +18,7 @@ In the PopUp for each of the provider locations, you will see the following [but
 
 ## SmartRoute
 
-<img src="./images/smartroute.png" width="300px">
+<img src="./images/smartroute_view.png" width="300px">
 <br/>
 
 SmartRoute is more than quickly finding a route COVID-19 test. Our hope is to build a tool for the ArcGIS ecosystem that improves decision making by incorporating routing artifacts that might normally be discarded and crowd-sources observations. At the moment, SmartRoute offers the following inputs:
