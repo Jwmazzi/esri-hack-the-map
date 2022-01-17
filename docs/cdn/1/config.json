@@ -1,0 +1,426 @@
+{
+  "pages": {
+    "page_0": {
+      "id": "page_0",
+      "mode": "FIT_WINDOW",
+      "type": "NORMAL",
+      "layout": {
+        "LARGE": "layout_0"
+      },
+      "isDefault": true,
+      "isVisible": true,
+      "label": "TestRouter"
+    }
+  },
+  "layouts": {
+    "layout_0": {
+      "type": "FIXED",
+      "content": {
+        "0": {
+          "type": "WIDGET",
+          "bbox": {
+            "left": "0.0%",
+            "right": "0.0%",
+            "top": "0.0%",
+            "bottom": "0.0%",
+            "width": "100.0%",
+            "height": "100.0%"
+          },
+          "widgetId": "widget_1",
+          "setting": {
+            "autoProps": {
+              "right": false,
+              "left": true,
+              "top": true,
+              "bottom": false
+            },
+            "vCenter": false,
+            "hCenter": false
+          },
+          "isPending": false
+        }
+      },
+      "order": [
+        "0"
+      ]
+    },
+    "layout_1": {
+      "type": "FIXED",
+      "content": {
+        "3": {
+          "type": "WIDGET",
+          "bbox": {
+            "left": "50%",
+            "right": "32.4%",
+            "top": "5.6%",
+            "bottom": "62.1%",
+            "width": "35.2%",
+            "height": "32.3%"
+          },
+          "widgetId": "widget_5",
+          "setting": {
+            "autoProps": {
+              "right": true,
+              "left": false,
+              "top": false,
+              "bottom": true
+            },
+            "vCenter": false,
+            "hCenter": true
+          },
+          "isPending": false
+        },
+        "4": {
+          "type": "WIDGET",
+          "bbox": {
+            "left": "50%",
+            "right": "12.5%",
+            "top": "41.0%",
+            "bottom": "48.8%",
+            "width": "75.0%",
+            "height": "10.2%"
+          },
+          "widgetId": "widget_6",
+          "setting": {
+            "autoProps": {
+              "left": false,
+              "right": true,
+              "top": false,
+              "bottom": true
+            },
+            "vCenter": false,
+            "hCenter": true
+          },
+          "isPending": false
+        },
+        "5": {
+          "type": "WIDGET",
+          "bbox": {
+            "left": "50%",
+            "right": "7.1%",
+            "top": "58.0%",
+            "bottom": "25.4%",
+            "width": "85.9%",
+            "height": "16.6%"
+          },
+          "widgetId": "widget_7",
+          "setting": {
+            "autoProps": {
+              "left": true,
+              "right": false,
+              "top": true,
+              "bottom": false
+            },
+            "vCenter": false,
+            "hCenter": true
+          },
+          "isPending": false
+        },
+        "6": {
+          "type": "WIDGET",
+          "bbox": {
+            "left": "50%",
+            "right": "32.3%",
+            "top": "81.2%",
+            "bottom": "7.0%",
+            "width": "40.6%",
+            "height": "11.8%"
+          },
+          "widgetId": "widget_8",
+          "setting": {
+            "autoProps": {
+              "right": true,
+              "left": false,
+              "top": true,
+              "bottom": false
+            },
+            "hCenter": true,
+            "vCenter": false
+          },
+          "isPending": false
+        }
+      },
+      "order": [
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "setting": {
+        "lockDescendants": true
+      }
+    },
+    "layout_2": {
+      "type": "FIXED",
+      "setting": {
+        "lockDescendants": true
+      },
+      "content": {
+        "0": {
+          "type": "WIDGET",
+          "bbox": {
+            "left": "50%",
+            "right": "32.4%",
+            "top": "5.6%",
+            "bottom": "62.1%",
+            "width": "35.2%",
+            "height": "32.3%"
+          },
+          "widgetId": "widget_5",
+          "setting": {
+            "autoProps": {
+              "right": true,
+              "left": false,
+              "top": false,
+              "bottom": true
+            },
+            "vCenter": false,
+            "hCenter": true
+          },
+          "isPending": false
+        },
+        "1": {
+          "type": "WIDGET",
+          "bbox": {
+            "left": "50%",
+            "right": "12.5%",
+            "top": "41.0%",
+            "bottom": "48.8%",
+            "width": "75.0%",
+            "height": "10.2%"
+          },
+          "widgetId": "widget_6",
+          "setting": {
+            "autoProps": {
+              "left": false,
+              "right": true,
+              "top": false,
+              "bottom": true
+            },
+            "vCenter": false,
+            "hCenter": true
+          },
+          "isPending": false
+        },
+        "2": {
+          "type": "WIDGET",
+          "bbox": {
+            "left": "50%",
+            "right": "7.1%",
+            "top": "55.3%",
+            "bottom": "25.4%",
+            "width": "85.9%",
+            "height": "19.3%"
+          },
+          "widgetId": "widget_7",
+          "setting": {
+            "autoProps": {
+              "left": true,
+              "right": false,
+              "top": true,
+              "bottom": false
+            },
+            "vCenter": false,
+            "hCenter": true
+          },
+          "isPending": false
+        },
+        "3": {
+          "type": "WIDGET",
+          "bbox": {
+            "left": "50%",
+            "right": "32.3%",
+            "top": "81.2%",
+            "bottom": "7.0%",
+            "width": "40.6%",
+            "height": "11.8%"
+          },
+          "widgetId": "widget_8",
+          "setting": {
+            "autoProps": {
+              "right": true,
+              "left": false,
+              "top": true,
+              "bottom": false
+            },
+            "hCenter": true,
+            "vCenter": false
+          },
+          "isPending": false
+        }
+      },
+      "order": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ]
+    }
+  },
+  "exbVersion": "1.6.0",
+  "mainSizeMode": "LARGE",
+  "theme": "themes/default/",
+  "forBuilderAttributes": {
+    "lockLayout": false
+  },
+  "template": "blankfullscreen",
+  "widgets": {
+    "widget_1": {
+      "uri": "widgets/HackMap/",
+      "version": "1.6.0",
+      "label": "Hackathon Map 1",
+      "config": {
+        "apiKey": "",
+        "providerURL": "https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/SB_County_COVID_Testing_Sites/FeatureServer",
+        "routingTargetsURL": "https://services1.arcgis.com/BteRGjYsGtVEXzaX/arcgis/rest/services/RoutingTargets/FeatureServer",
+        "feedbackURL": "https://services1.arcgis.com/BteRGjYsGtVEXzaX/arcgis/rest/services/UserFeedback/FeatureServer",
+        "driveSAURL": "https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/TestingServiceAreas_Driving/FeatureServer",
+        "walkSAURL": "https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/TestingServiceAreas_Walking/FeatureServer"
+      },
+      "id": "widget_1"
+    },
+    "widget_5": {
+      "uri": "widgets/common/image/",
+      "version": "1.6.0",
+      "label": "Image 1",
+      "config": {
+        "functionConfig": {
+          "altText": "",
+          "toolTip": "",
+          "linkParam": {},
+          "scale": "Fit",
+          "imageParam": {
+            "url": "${appResourceUrl}/images/widget_2/1642452492131.png",
+            "originalUrl": "${appResourceUrl}/images/widget_2/1642452492131.png",
+            "fileName": "1642452492131.png",
+            "originalName": "TestRouter_Pad.png",
+            "imgSourceType": "BY_UPLOAD",
+            "fileFormat": "image/png",
+            "originalId": "1642452492131",
+            "isUseCompress": false
+          },
+          "imgSourceType": "",
+          "srcExpression": null
+        },
+        "styleConfig": {}
+      },
+      "id": "widget_5"
+    },
+    "widget_6": {
+      "uri": "widgets/common/text/",
+      "version": "1.6.0",
+      "label": "Text 1",
+      "config": {
+        "text": "<p style=\"text-align: center;\"><strong style=\"font-size: 22px; color: rgb(33, 65, 85);\">Welcome to TestRouter</strong></p>",
+        "style": {
+          "verticalAlign": "start",
+          "wrap": true
+        }
+      },
+      "id": "widget_6"
+    },
+    "widget_7": {
+      "uri": "widgets/common/text/",
+      "version": "1.6.0",
+      "label": "Text 1 copy",
+      "config": {
+        "text": "<p style=\"text-align: center;\"><span style=\"font-size: 16px;\">The best way to find Covid-19 tests around you. This application requires that Location Services be enabled.</span></p>",
+        "style": {
+          "verticalAlign": "start",
+          "wrap": true
+        }
+      },
+      "id": "widget_7"
+    },
+    "widget_8": {
+      "uri": "widgets/common/button/",
+      "version": "1.6.0",
+      "label": "Button 1",
+      "config": {
+        "functionConfig": {
+          "text": "Find Tests Now",
+          "textExpression": null,
+          "linkParam": {
+            "linkType": "PAGE",
+            "value": "page_0",
+            "openType": "_self"
+          }
+        },
+        "styleConfig": {
+          "themeStyle": {
+            "quickStyleType": "primary"
+          },
+          "useCustom": false,
+          "customStyle": {
+            "regular": {
+              "iconProps": {
+                "color": "#fff",
+                "size": 14
+              }
+            },
+            "hover": {
+              "iconProps": {
+                "size": 14
+              }
+            }
+          }
+        }
+      },
+      "id": "widget_8",
+      "useDataSources": []
+    }
+  },
+  "widgetsManifest": {},
+  "views": {},
+  "sections": {},
+  "dialogs": {
+    "dialog_1": {
+      "id": "dialog_1",
+      "mode": "FIXED",
+      "sizeMode": {
+        "LARGE": {
+          "position": "CENTER",
+          "width": "482px",
+          "height": "504px"
+        },
+        "SMALL": {
+          "position": "BOTTOM",
+          "width": "482px",
+          "height": "471px",
+          "aspectRatio": false
+        }
+      },
+      "closeWhenClickOverlay": true,
+      "dialogBackground": {
+        "color": "var(--light)",
+        "fillType": "fit",
+        "image": {
+          "url": ""
+        }
+      },
+      "overlayColor": "var(--dark-900)",
+      "layout": {
+        "LARGE": "layout_1",
+        "SMALL": "layout_2"
+      },
+      "index": 0,
+      "isSplash": true,
+      "label": "Splash"
+    }
+  },
+  "dataSources": {},
+  "messageConfigs": {},
+  "attributes": {
+    "portalUrl": "https://jeffscarmazzi.maps.arcgis.com",
+    "clientId": "",
+    "title": "TestRouter",
+    "description": ""
+  },
+  "sharedThemeVariables": null,
+  "pageStructure": [
+    {
+      "page_0": []
+    }
+  ],
+  "timestamp": 1642470924359
+}
