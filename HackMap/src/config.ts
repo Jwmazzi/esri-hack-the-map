@@ -1,7 +1,12 @@
-import { ImmutableObject } from 'seamless-immutable'
+import { ImmutableObject } from 'seamless-immutable';
 
 export interface Config {
-  exampleConfigProperty: string
+  apiKey: string;
+  providerURL: string;
+  routingTargetsURL: string;
+  feedbackURL: string;
+  driveSAURL: string;
+  walkSAURL: string;
 }
 
-export type IMConfig = ImmutableObject<Config>
+export type IMConfig = ImmutableObject<Config>;
