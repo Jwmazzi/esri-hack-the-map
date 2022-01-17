@@ -42,7 +42,6 @@ interface State {
 }
 
 const HEADER_HEIGHT = 56;
-const USE_MOCKED_USER_LOCATION = true;
 
 export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>, State> {
   private view: MapView;
@@ -57,6 +56,8 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     super(props);
 
     esriConfig.apiKey = this.props.config.apiKey;
+
+    this.USE_MOCKED_USER_LOCATION = this.checkURLParameter();
 
     this.state = {
       routeCalculation: 'idle',
@@ -142,6 +143,19 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     });
   }
 
+  checkURLParameter() {
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    if (urlParams.get('demo') === 'true') {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
   async componentDidMount() {
     this.view = new MapView({
       container: 'edit-map',
@@ -191,7 +205,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     this.setToast("Address Copied to Clipboard", 2);
     navigator.clipboard.writeText(feature.attributes.SiteAddress);
 
-    const userLocation = USE_MOCKED_USER_LOCATION
+    const userLocation = this.USE_MOCKED_USER_LOCATION
       ? { coords: { longitude: -117.182541, latitude: 34.055569 } }
       : await this.locator.locate();
 
@@ -362,7 +376,7 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
 
     console.log({ info });
     // TODO: use info
-    const userLocation = USE_MOCKED_USER_LOCATION
+    const userLocation = this.USE_MOCKED_USER_LOCATION
       ? { coords: { longitude: -117.182541, latitude: 34.055569 } }
       : await this.locator.locate();
 

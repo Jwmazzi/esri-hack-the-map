@@ -307,7 +307,8 @@
       "version": "1.6.0",
       "label": "Text 2",
       "config": {
-        "text": "<p style=\"text-align: center;\"><span style=\"font-size: 15px; color: var(--dark-800);\">﻿The best way to find Covid-19 tests around you. You will be prompted to </span><strong style=\"font-size: 15px; color: rgb(33, 65, 85);\">Allow Location Services</strong><span style=\"font-size: 15px; color: var(--dark-800);\"> when using this application.</span></p>",
+        "text": "<p style=\"text-align: center;\"><span style=\"color: var(--dark-800); font-size: 15px;\">﻿The best way to find Covid-19 tests around you. This application requires that Location Services be enabled.</span></p>",
+        "placeholder": "<p style=\"text-align: center;\"><span style=\"color: var(--dark-800);\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span></p>",
         "style": {
           "verticalAlign": "start",
           "wrap": true
@@ -397,6 +398,7 @@
       "label": "Text 3",
       "config": {
         "text": "<p style=\"text-align: center;\"><strong style=\"font-size: 22px; color: rgb(33, 65, 85);\">Welcome to TestRouter</strong></p>",
+        "placeholder": "Double click to edit text",
         "style": {
           "verticalAlign": "start",
           "wrap": true
@@ -504,10 +506,7 @@
   "dataSources": {},
   "messageConfigs": {},
   "attributes": {
-    "portalUrl": "https://jeffscarmazzi.maps.arcgis.com",
-    "clientId": "",
-    "title": "SmartRoute",
-    "description": ""
+    "portalUrl": "https://jeffscarmazzi.maps.arcgis.com"
   },
   "sharedThemeVariables": null,
   "pageStructure": [
@@ -515,5 +514,5 @@
       "page_0": []
     }
   ],
-  "timestamp": 1642389585045
+  "timestamp": 1642403692582
 }

@@ -1,37 +1,34 @@
 # Hack the Map 5
 
-<img src="./logo.png" width="300px">
+[<img src="./images/logo.png" width="300px">](https://jwmazzi.github.io/esri-hack-the-map)
 
-## Dev
+## Exploring TestRouter
 
-Using [Experience Builder 1.6](https://developers.arcgis.com/experience-builder/). The content of this repo should go inside `/client/your-extensions/widgets/`, e.g. `/client/your-extensions/widgets/README.md`.
+You can visit [TestRouter](https://jwmazzi.github.io/esri-hack-the-map) via GitHub Pages. If you don't live in Redlands, we suggest using the [demonstration version](https://jwmazzi.github.io/esri-hack-the-map?demo=true) of the application, where a predefined location is used to illustrate the routing capabilities.
 
-Note that there's a bug in 1.6 with Node.js 16 when you try to download the experience as static files. Please use patch [here](https://github.com/Esri/arcgis-experience-builder-sdk-resources/tree/master/patches/1.6/patch1/arcgis-experience-builder).
+## PopUp Interface
 
-### Use ArcGIS JS API
+<img src="./images/popup.png" width="300px">
+<br/>
 
-Just import the module that is needed from `'esri/'`:
+In the PopUp for each of the provider locations, you will see the following [buttons](https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html) added to the default PopUp:
 
-```ts
-import Map from 'esri/Map';
-```
+* Directions - Selecting this option will take the user's current location, generate a route to this location, and copy the address of that location to the user's clipboard. Additionally, the provider destiation will be written to a Hosted Feature Layer in ArcGIS Online so that it can be used in the SmartRoute logic (see below).
+* Respond - Selecting this option will open a Modal that allows the user input their observations about a particular provider. Much like the Directions button, this input is stored in a Hosted Feature Layer in ArcGIS Online that will be fed into SmartRoute.
 
-See [guide](https://developers.arcgis.com/experience-builder/guide/extend-base-widget/#modules-in-the-arcgis-api-for-javascript). 
+## SmartRoute
 
-### Formatting
+<img src="./images/smartroute.png" width="300px">
+<br/>
 
-Using [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) to honor `.prettierrc.json` for file formatting.
+SmartRoute is more than quickly finding a route COVID-19 test. Our hope is to build a tool for the ArcGIS ecosystem that improves decision making by incorporating routing artifacts that might normally be discarded and crowd-sources observations. At the moment, SmartRoute offers the following inputs:
 
-### UI library
-
-E.g.
-
-```ts
-import { Button } from 'jimu-ui';
-```
-
-See [jimu-UI](https://developers.arcgis.com/experience-builder/storybook)
-
-### Style widget
-
-See [CSS-in-JS](https://developers.arcgis.com/experience-builder/guide/widget-ui/#%EF%B8%8Fcss-in-js-recommended)
+* Testing Types
+  * Testing Kits
+  * Walk-in Availability
+* Routing Options
+  * Transportation Method
+    * Driving
+    * Walking
+    * COMING SOON - Bicycle & More
+  * Max Time
