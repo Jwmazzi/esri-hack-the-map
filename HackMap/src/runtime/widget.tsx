@@ -201,9 +201,6 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
     this.view.graphics.removeAll();
 
     const feature = this.view.popup.selectedFeature;
-    
-    this.setToast("Address Copied to Clipboard", 2);
-    navigator.clipboard.writeText(feature.attributes.SiteAddress);
 
     const userLocation = this.USE_MOCKED_USER_LOCATION
       ? { coords: { longitude: -117.182541, latitude: 34.055569 } }
@@ -279,6 +276,9 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       this.view.popup.close();
 
       this.view.goTo(routePolyline.extent.expand(1.25));
+
+      this.setToast("Address Copied to Clipboard", 2);
+      navigator.clipboard.writeText(feature.attributes.SiteAddress);
 
       this.routingTargetFL.applyEdits({
         addFeatures: [new Graphic({ attributes: { SiteID: feature.attributes.SiteID } })],
@@ -432,9 +432,6 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
 
     const providerResp = await this.providerFL.queryFeatures(providerQuery);
 
-    this.setToast("Address Copied to Clipboard", 3);
-    navigator.clipboard.writeText(providerResp.features[0].attributes.SiteAddress);
-
     const providerGraphic = getPointGraphic(providerResp.features[0].geometry as Point, '#35AC46');
 
     console.log(providerResp)
@@ -495,6 +492,9 @@ export default class Widget extends React.PureComponent<AllWidgetProps<IMConfig>
       this.view.popup.close();
 
       this.view.goTo(routePolyline.extent.expand(1.25));
+
+      this.setToast("Address Copied to Clipboard", 3);
+      navigator.clipboard.writeText(providerResp.features[0].attributes.SiteAddress);
 
       this.routingTargetFL.applyEdits({
         addFeatures: [new Graphic({ attributes: { SiteID: providerResp.features[0].attributes.SiteID } })],
