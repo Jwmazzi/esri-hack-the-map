@@ -270,12 +270,14 @@
       "version": "1.6.0",
       "label": "Hackathon Map 1",
       "config": {
-        "apiKey": "",
         "providerURL": "https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/SB_County_COVID_Testing_Sites/FeatureServer",
         "routingTargetsURL": "https://services1.arcgis.com/BteRGjYsGtVEXzaX/arcgis/rest/services/RoutingTargets/FeatureServer",
+        "routingURL": "https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World",
         "feedbackURL": "https://services1.arcgis.com/BteRGjYsGtVEXzaX/arcgis/rest/services/UserFeedback/FeatureServer",
+        "apiKey": "AAPK5fa7b8f95aa1415f9723911fe558ed58ZWTg6Dl5rITcjdMBV8_jqAlm3j4Cyrf_ajSDscpNKxpDMC9KlZULBEtarxeY_qdw",
         "driveSAURL": "https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/TestingServiceAreas_Driving/FeatureServer",
-        "walkSAURL": "https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/TestingServiceAreas_Walking/FeatureServer"
+        "walkSAURL": "https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/TestingServiceAreas_Walking/FeatureServer",
+        "_defaultstr": "{\"providerURL\":\"https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/SB_County_COVID_Testing_Sites/FeatureServer\",\r\n    \"routingTargetsURL\": \"https://services1.arcgis.com/BteRGjYsGtVEXzaX/arcgis/rest/services/RoutingTargets/FeatureServer\",\r\n    \"routingURL\": \"https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World\",\r\n    \"feedbackURL\": \"https://services1.arcgis.com/BteRGjYsGtVEXzaX/arcgis/rest/services/UserFeedback/FeatureServer\",\r\n    \"apiKey\": \"AAPK5fa7b8f95aa1415f9723911fe558ed58ZWTg6Dl5rITcjdMBV8_jqAlm3j4Cyrf_ajSDscpNKxpDMC9KlZULBEtarxeY_qdw\",\r\n    \"driveSAURL\": \"https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/TestingServiceAreas_Driving/FeatureServer\",\r\n    \"walkSAURL\": \"https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/TestingServiceAreas_Walking/FeatureServer\"\r\n}"
       },
       "id": "widget_1"
     },
@@ -312,6 +314,7 @@
       "label": "Text 1",
       "config": {
         "text": "<p style=\"text-align: center;\"><strong style=\"font-size: 22px; color: rgb(33, 65, 85);\">Welcome to TestRouter</strong></p>",
+        "placeholder": "Double click to edit text",
         "style": {
           "verticalAlign": "start",
           "wrap": true
@@ -325,6 +328,7 @@
       "label": "Text 1 copy",
       "config": {
         "text": "<p style=\"text-align: center;\"><span style=\"font-size: 16px;\">The best way to find Covid-19 tests around you. This application requires that Location Services be enabled.</span></p>",
+        "placeholder": "Double click to edit text",
         "style": {
           "verticalAlign": "start",
           "wrap": true
@@ -411,10 +415,7 @@
   "dataSources": {},
   "messageConfigs": {},
   "attributes": {
-    "portalUrl": "https://jeffscarmazzi.maps.arcgis.com",
-    "clientId": "",
-    "title": "TestRouter",
-    "description": ""
+    "portalUrl": "https://jeffscarmazzi.maps.arcgis.com"
   },
   "sharedThemeVariables": null,
   "pageStructure": [
@@ -422,5 +423,5 @@
       "page_0": []
     }
   ],
-  "timestamp": 1642470924359
+  "timestamp": 1642471238566
 }
