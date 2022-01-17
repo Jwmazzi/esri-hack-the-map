@@ -5,7 +5,8 @@ export interface Config {
   providerURL: string;
   routingTargetsURL: string;
   feedbackURL: string;
-  serviceAreaURL: string;
+  driveSAURL: string;
+  walkSAURL: string;
 }
 
 export type IMConfig = ImmutableObject<Config>;
