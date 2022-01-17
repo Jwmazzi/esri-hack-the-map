@@ -6,7 +6,7 @@
 
 # Exploring TestRouter
 
-You can visit [TestRouter](https://jwmazzi.github.io/esri-hack-the-map) via GitHub Pages. If you don't live in Redlands, we suggest using the [demonstration version](https://jwmazzi.github.io/esri-hack-the-map?demo=true) of the application, where a predefined location is used to illustrate the routing capabilities.
+You can visit [TestRouter](https://jwmazzi.github.io/esri-hack-the-map) via GitHub Pages. If you don't live in Redlands, we suggest using the [demonstration version](https://jwmazzi.github.io/esri-hack-the-map?demo=true) of the application (see URL below), where a predefined location is used to illustrate the routing capabilities.
 
 [https://jwmazzi.github.io/esri-hack-the-map?demo=true](https://jwmazzi.github.io/esri-hack-the-map?demo=true)
 
